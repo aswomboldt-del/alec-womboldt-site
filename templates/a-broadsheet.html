@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Template A · Broadsheet — Alec Womboldt</title>
+<meta name="description" content="Alec Womboldt, MS, RN, CCRN, TCRN — Stanford-trained clinical informaticist and critical care nurse building AI-powered tools for healthcare.">
+<meta property="og:title" content="Alec Womboldt — Clinical Informaticist & AI Builder">
+<meta property="og:description" content="Critical care nurse and Stanford-trained clinical informaticist building AI tools clinicians actually use.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Alec Womboldt",
+  "jobTitle": "Clinical Informaticist & Registered Nurse",
+  "email": "mailto:aswomboldt@gmail.com",
+  "address": { "@type": "PostalAddress", "addressLocality": "Palo Alto", "addressRegion": "CA" },
+  "alumniOf": [
+    { "@type": "CollegeOrUniversity", "name": "Stanford University" },
+    { "@type": "CollegeOrUniversity", "name": "Eastern Michigan University" }
+  ],
+  "sameAs": ["https://linkedin.com/in/alec-womboldt-7bb6085b"]
+}
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #16211f;
+    --ink-soft: #4b5a57;
+    --ink-faint: #7c8a87;
+    --bg: #fcfcfa;
+    --surface: #ffffff;
+    --line: #e6e9e7;
+    --accent: #0e7c66;
+    --accent-soft: #e7f3f0;
+    --accent-dark: #0a5c4c;
+    --accent-glow: rgba(14,124,102,.09);
+    --nav-bg: rgba(252,252,250,.92);
+    --code-bg: #f4f6f5;
+    --serif: "Fraunces", Georgia, serif;
+    --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  }
+  [data-theme="dark"] {
+    --ink: #e8ece9;
+    --ink-soft: #a9b6b2;
+    --ink-faint: #6f7d79;
+    --bg: #101615;
+    --surface: #17201e;
+    --line: #26312e;
+    --accent: #35b295;
+    --accent-soft: #1b2f2a;
+    --accent-dark: #5ecab0;
+    --accent-glow: rgba(53,178,149,.13);
+    --nav-bg: rgba(16,22,21,.88);
+    --code-bg: #1c2624;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--sans);
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.65;
+    font-size: 16.5px;
+    -webkit-font-smoothing: antialiased;
+    transition: background .35s ease, color .35s ease;
+  }
+  ::selection { background: var(--accent); color: #fff; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+  .skip-link {
+    position: absolute; left: -9999px; top: 0; z-index: 100;
+    background: var(--accent); color: #fff; padding: 10px 18px; border-radius: 0 0 8px 0;
+    text-decoration: none; font-weight: 600;
+  }
+  .skip-link:focus { left: 0; }
+
+  /* Scroll progress */
+  #progress {
+    position: fixed; top: 0; left: 0; height: 3px; width: 0;
+    background: var(--accent); z-index: 60; transition: width .1s linear;
+  }
+
+  /* Nav */
+  nav {
+    position: sticky; top: 0; z-index: 50;
+    background: var(--nav-bg);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    max-width: 880px; margin: 0 auto; padding: 14px 24px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  }
+  .nav-name { font-family: var(--serif); font-weight: 700; font-size: 1.05rem; color: var(--ink); text-decoration: none; white-space: nowrap; }
+  .nav-links { display: flex; gap: 20px; flex-wrap: wrap; align-items: center; }
+  .nav-links a {
+    color: var(--ink-soft); text-decoration: none; font-size: .84rem;
+    font-weight: 500; letter-spacing: .01em; position: relative; padding-bottom: 2px;
+  }
+  .nav-links a::after {
+    content: ""; position: absolute; left: 0; bottom: -2px; height: 2px; width: 0;
+    background: var(--accent); transition: width .2s ease; border-radius: 2px;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+  .nav-links a.active::after { width: 100%; }
+  .nav-tools { display: flex; gap: 10px; align-items: center; }
+  .icon-btn {
+    background: var(--surface); border: 1px solid var(--line); color: var(--ink-soft);
+    border-radius: 8px; padding: 6px 10px; cursor: pointer; font-size: .82rem;
+    font-family: var(--sans); font-weight: 500; display: inline-flex; align-items: center; gap: 6px;
+    transition: border-color .15s ease, color .15s ease;
+  }
+  .icon-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .icon-btn kbd {
+    font-family: var(--mono); font-size: .68rem; background: var(--code-bg);
+    border: 1px solid var(--line); border-radius: 4px; padding: 1px 5px; color: var(--ink-faint);
+  }
+
+  /* Hero */
+  header { padding: 88px 0 72px; position: relative; overflow: hidden; }
+  .kicker {
+    display: inline-block; font-size: .78rem; font-weight: 600;
+    letter-spacing: .12em; text-transform: uppercase; color: var(--accent);
+    margin-bottom: 20px;
+  }
+  h1 {
+    font-family: var(--serif); font-weight: 700;
+    font-size: clamp(2.2rem, 5.4vw, 3.4rem);
+    line-height: 1.12; letter-spacing: -.01em; margin-bottom: 24px;
+  }
+  h1 em { font-style: normal; color: var(--accent); }
+  .type-cursor {
+    display: inline-block; width: 3px; height: .9em; background: var(--accent);
+    vertical-align: -0.08em; margin-left: 2px; animation: blink 1s step-end infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+  .lede { font-size: 1.16rem; color: var(--ink-soft); max-width: 640px; margin-bottom: 32px; }
+  .creds { font-size: .88rem; color: var(--ink-faint); margin-bottom: 36px; }
+  .creds strong { color: var(--ink-soft); font-weight: 600; }
+  .cta-row { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+  .btn {
+    display: inline-block; padding: 12px 22px; border-radius: 8px;
+    font-size: .92rem; font-weight: 600; text-decoration: none; cursor: pointer;
+    font-family: var(--sans); border: none;
+    transition: all .15s ease;
+  }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: var(--accent-dark); color: var(--bg); }
+  .btn-ghost { color: var(--ink); border: 1px solid var(--line); background: var(--surface); }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* Sections */
+  section { padding: 64px 0; border-top: 1px solid var(--line); }
+  h2 {
+    font-family: var(--serif); font-weight: 600; font-size: 1.7rem;
+    margin-bottom: 8px; letter-spacing: -.01em;
+  }
+  .section-sub { color: var(--ink-faint); font-size: .95rem; margin-bottom: 40px; }
+
+  /* Stats band */
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 56px; }
+  .stat {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+    padding: 20px 22px;
+  }
+  .stat b { display: block; font-family: var(--serif); font-size: 1.7rem; color: var(--accent); line-height: 1.2; font-variant-numeric: tabular-nums; }
+  .stat span { font-size: .84rem; color: var(--ink-soft); }
+
+  /* Timeline */
+  .timeline { margin-top: 8px; }
+  .tl-track {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    position: relative; padding: 18px 6px 0;
+  }
+  .tl-track::before {
+    content: ""; position: absolute; left: 12px; right: 12px; top: 27px;
+    height: 2px; background: var(--line);
+  }
+  .tl-track::after {
+    content: ""; position: absolute; left: 12px; top: 27px; height: 2px;
+    width: var(--tl-progress, 0%); max-width: calc(100% - 24px);
+    background: var(--accent); transition: width 1.4s cubic-bezier(.22,1,.36,1);
+  }
+  .tl-node {
+    position: relative; z-index: 1; background: none; border: none; cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    font-family: var(--sans); padding: 0; width: 70px;
+  }
+  .tl-dot {
+    width: 18px; height: 18px; border-radius: 50%; background: var(--bg);
+    border: 3px solid var(--line); transition: all .2s ease;
+  }
+  .tl-node:hover .tl-dot, .tl-node.active .tl-dot { border-color: var(--accent); background: var(--accent-soft); transform: scale(1.15); }
+  .tl-node.active .tl-dot { background: var(--accent); }
+  .tl-year { font-size: .74rem; font-weight: 600; color: var(--ink-faint); font-family: var(--mono); }
+  .tl-node.active .tl-year { color: var(--accent); }
+  .tl-card {
+    margin-top: 26px; background: var(--surface); border: 1px solid var(--line);
+    border-radius: 12px; padding: 22px 26px; min-height: 108px;
+  }
+  .tl-card b { font-size: 1rem; }
+  .tl-card .tl-org { color: var(--accent); font-size: .88rem; font-weight: 500; margin-bottom: 6px; }
+  .tl-card p { color: var(--ink-soft); font-size: .93rem; }
+
+  /* Experience */
+  .job { display: grid; grid-template-columns: 170px 1fr; gap: 28px; padding: 28px 0; }
+  .job + .job { border-top: 1px solid var(--line); }
+  .job-when { font-size: .85rem; color: var(--ink-faint); padding-top: 4px; }
+  .job h3 { font-size: 1.12rem; font-weight: 600; margin-bottom: 2px; }
+  .job .org { color: var(--accent); font-weight: 500; font-size: .95rem; margin-bottom: 14px; }
+  .job ul { list-style: none; }
+  .job li {
+    padding-left: 20px; position: relative; margin-bottom: 11px;
+    color: var(--ink-soft); font-size: .97rem;
+  }
+  .job li::before {
+    content: ""; position: absolute; left: 0; top: .58em;
+    width: 7px; height: 7px; border-radius: 50%; background: var(--accent-soft);
+    border: 2px solid var(--accent);
+  }
+
+  /* Projects */
+  .cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+  .card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+    padding: 28px; display: flex; flex-direction: column; min-width: 0;
+    transition: box-shadow .2s ease, transform .2s ease;
+  }
+  .card:hover { box-shadow: 0 8px 28px var(--accent-glow); transform: translateY(-2px); }
+  .tag {
+    align-self: flex-start; font-size: .72rem; font-weight: 600;
+    letter-spacing: .08em; text-transform: uppercase;
+    background: var(--accent-soft); color: var(--accent-dark);
+    padding: 4px 10px; border-radius: 999px; margin-bottom: 16px;
+  }
+  .card h3 { font-family: var(--serif); font-size: 1.28rem; font-weight: 600; margin-bottom: 4px; }
+  .card .role { font-size: .84rem; color: var(--ink-faint); margin-bottom: 14px; }
+  .card p { color: var(--ink-soft); font-size: .95rem; margin-bottom: 16px; }
+  .stack { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
+  .stack span {
+    font-size: .76rem; color: var(--ink-soft); background: var(--bg);
+    border: 1px solid var(--line); border-radius: 6px; padding: 3px 9px;
+  }
+  details.diagram { margin-bottom: 16px; }
+  details.diagram summary {
+    cursor: pointer; font-size: .84rem; font-weight: 600; color: var(--accent);
+    list-style: none; display: inline-flex; align-items: center; gap: 6px;
+  }
+  details.diagram summary::-webkit-details-marker { display: none; }
+  details.diagram summary::before { content: "▸"; transition: transform .2s ease; display: inline-block; }
+  details.diagram[open] summary::before { transform: rotate(90deg); }
+  .diagram-box {
+    margin-top: 14px; background: var(--code-bg); border: 1px solid var(--line);
+    border-radius: 10px; padding: 16px; overflow-x: auto;
+  }
+  .diagram-box svg { display: block; min-width: 460px; width: 100%; height: auto; }
+  .diagram-box text { font-family: var(--mono); fill: var(--ink-soft); }
+  .diagram-box .d-label { font-size: 11px; font-weight: 500; }
+  .diagram-box .d-sub { font-size: 9px; fill: var(--ink-faint); }
+  .diagram-box rect { fill: var(--surface); stroke: var(--line); }
+  .diagram-box rect.d-hot { stroke: var(--accent); }
+  .diagram-box path.d-arrow { stroke: var(--ink-faint); fill: none; marker-end: url(#arr); }
+
+  /* Goals */
+  .goals {
+    background: var(--surface); border: 1px solid var(--line);
+    border-left: 4px solid var(--accent); border-radius: 12px; padding: 32px 36px;
+  }
+  .goals p { color: var(--ink-soft); }
+  .goals p + p { margin-top: 14px; }
+  .goals strong { color: var(--ink); }
+
+  /* Personal */
+  .personal-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px; align-items: start; }
+  .personal-prose p { color: var(--ink-soft); font-size: .98rem; }
+  .personal-prose p + p { margin-top: 14px; }
+  .personal-prose strong { color: var(--ink); }
+  .ask-box {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 24px;
+  }
+  .ask-box b { display: block; font-size: .8rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 14px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chips span {
+    font-size: .82rem; color: var(--accent-dark); background: var(--accent-soft);
+    border-radius: 999px; padding: 5px 13px; font-weight: 500;
+  }
+
+  /* Awards */
+  .awards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .award {
+    display: flex; gap: 14px; align-items: flex-start;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+    padding: 18px 20px;
+  }
+  .award .medal {
+    flex: none; width: 36px; height: 36px; border-radius: 10px;
+    background: var(--accent-soft); color: var(--accent-dark);
+    display: grid; place-items: center; font-size: 1rem;
+  }
+  .award b { display: block; font-size: .95rem; font-weight: 600; }
+  .award span { font-size: .84rem; color: var(--ink-faint); }
+
+  /* Education & certs */
+  .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+  .edu-item { padding: 16px 0; border-bottom: 1px solid var(--line); }
+  .edu-item:last-child { border-bottom: none; }
+  .edu-item b { display: block; font-size: .97rem; font-weight: 600; }
+  .edu-item .school { color: var(--accent); font-size: .9rem; }
+  .edu-item .detail { color: var(--ink-faint); font-size: .84rem; }
+  .cert-list { list-style: none; }
+  .cert-list li {
+    padding: 12px 0 12px 28px; position: relative;
+    border-bottom: 1px solid var(--line); font-size: .95rem; color: var(--ink-soft);
+  }
+  .cert-list li:last-child { border-bottom: none; }
+  .cert-list li::before {
+    content: "✓"; position: absolute; left: 2px; color: var(--accent); font-weight: 700;
+  }
+
+  /* Colophon */
+  .colophon-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 28px; }
+  .colo {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+    padding: 18px 18px 16px;
+  }
+  .colo b { display: block; font-family: var(--mono); font-size: .86rem; color: var(--accent); margin-bottom: 4px; }
+  .colo span { font-size: .8rem; color: var(--ink-soft); }
+  .colophon-note { font-size: .92rem; color: var(--ink-soft); max-width: 640px; }
+  .colophon-note code {
+    font-family: var(--mono); font-size: .8rem; background: var(--code-bg);
+    border: 1px solid var(--line); border-radius: 4px; padding: 1px 6px;
+  }
+  .kbd-hints { margin-top: 18px; display: flex; gap: 18px; flex-wrap: wrap; font-size: .82rem; color: var(--ink-faint); }
+  .kbd-hints kbd {
+    font-family: var(--mono); font-size: .74rem; background: var(--code-bg);
+    border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 5px; padding: 2px 7px; color: var(--ink-soft);
+  }
+
+  /* Contact / footer */
+  .contact { text-align: center; padding: 80px 0 64px; }
+  .contact h2 { margin-bottom: 14px; }
+  .contact p { color: var(--ink-soft); max-width: 520px; margin: 0 auto 30px; }
+  footer {
+    border-top: 1px solid var(--line); padding: 26px 0; text-align: center;
+    font-size: .82rem; color: var(--ink-faint);
+  }
+  footer a { color: var(--ink-faint); }
+
+  /* Command palette */
+  .palette-overlay {
+    position: fixed; inset: 0; background: rgba(10,16,15,.45); z-index: 90;
+    display: none; align-items: flex-start; justify-content: center; padding-top: 14vh;
+    backdrop-filter: blur(2px);
+  }
+  .palette-overlay.open { display: flex; }
+  .palette {
+    width: min(560px, calc(100vw - 40px)); background: var(--surface);
+    border: 1px solid var(--line); border-radius: 14px; overflow: hidden;
+    box-shadow: 0 24px 60px rgba(0,0,0,.25);
+  }
+  .palette input {
+    width: 100%; border: none; outline: none; background: transparent;
+    padding: 18px 20px; font-size: 1rem; font-family: var(--sans); color: var(--ink);
+    border-bottom: 1px solid var(--line);
+  }
+  .palette-list { max-height: 320px; overflow-y: auto; padding: 8px; }
+  .palette-item {
+    display: flex; align-items: center; gap: 12px; width: 100%;
+    padding: 11px 14px; border-radius: 8px; border: none; background: none;
+    font-family: var(--sans); font-size: .92rem; color: var(--ink); cursor: pointer; text-align: left;
+  }
+  .palette-item .pi-icon { flex: none; width: 20px; text-align: center; color: var(--ink-faint); }
+  .palette-item .pi-hint { margin-left: auto; font-size: .74rem; color: var(--ink-faint); font-family: var(--mono); }
+  .palette-item.selected { background: var(--accent-soft); color: var(--accent-dark); }
+  .palette-empty { padding: 20px; text-align: center; color: var(--ink-faint); font-size: .9rem; }
+  .palette-foot {
+    border-top: 1px solid var(--line); padding: 8px 14px; display: flex; gap: 16px;
+    font-size: .72rem; color: var(--ink-faint);
+  }
+  .palette-foot kbd { font-family: var(--mono); background: var(--code-bg); border: 1px solid var(--line); border-radius: 4px; padding: 0 5px; }
+
+  /* Toast */
+  .toast {
+    position: fixed; bottom: 28px; left: 50%; transform: translate(-50%, 20px);
+    background: var(--ink); color: var(--bg); padding: 10px 20px; border-radius: 999px;
+    font-size: .86rem; font-weight: 500; opacity: 0; pointer-events: none;
+    transition: opacity .25s ease, transform .25s ease; z-index: 95;
+  }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+  /* Reveal animation */
+  .reveal { opacity: 0; transform: translateY(14px); transition: opacity .5s ease, transform .5s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    html { scroll-behavior: auto; }
+    .type-cursor { animation: none; }
+    .tl-track::after { transition: none; }
+  }
+
+  @media (max-width: 720px) {
+    .nav-links { display: none; }
+    header { padding: 56px 0 48px; }
+    .stats { grid-template-columns: 1fr; }
+    .job { grid-template-columns: 1fr; gap: 6px; }
+    .cards { grid-template-columns: minmax(0, 1fr); }
+    .awards, .edu-grid, .personal-grid { grid-template-columns: 1fr; }
+    .colophon-grid { grid-template-columns: 1fr 1fr; }
+    section { padding: 48px 0; }
+    .tl-year { font-size: .66rem; }
+    .tl-node { width: 48px; }
+  }
+
+  /* ===== TEMPLATE A: BROADSHEET (editorial print) ===== */
+  :root {
+    --serif: "Newsreader", Georgia, serif;
+    --ink: #161412; --ink-soft: #57514a; --ink-faint: #8a8378;
+    --bg: #faf8f3; --surface: #fffefa; --line: #e5dfd2;
+    --accent: #a3241c; --accent-soft: #f6e8e4; --accent-dark: #7a1812;
+    --accent-glow: rgba(163,36,28,.08); --nav-bg: rgba(250,248,243,.92); --code-bg: #f2eee5;
+  }
+  [data-theme="dark"] {
+    --ink: #ece7dc; --ink-soft: #b3aca0; --ink-faint: #7d766b;
+    --bg: #151210; --surface: #1d1915; --line: #332d26;
+    --accent: #e0584a; --accent-soft: #3a201b; --accent-dark: #f08a7e;
+    --accent-glow: rgba(224,88,74,.12); --nav-bg: rgba(21,18,16,.9); --code-bg: #241f1a;
+  }
+  h1 { font-weight: 500; letter-spacing: 0; }
+  h1 em { font-style: italic; }
+  h2 { font-weight: 500; font-size: 1.85rem; }
+  .nav-name { font-weight: 600; }
+  .kicker { color: var(--ink); border-top: 3px solid var(--ink); padding-top: 12px; letter-spacing: .22em; }
+  .stat b, .card h3 { font-weight: 500; }
+  .btn-primary { background: var(--ink); color: var(--bg); }
+  .btn-primary:hover { background: var(--accent); color: #fff; }
+  .goals { border-left: 2px solid var(--ink); }
+  .stat, .card, .tl-card, .award, .goals, .ask-box, .colo, .diagram-box,
+  .palette, .btn, .icon-btn, .stack span, .chips span, .tag, .palette-item,
+  .award .medal { border-radius: 2px; }
+
+  .variant-badge {
+    position: fixed; bottom: 16px; right: 16px; z-index: 70;
+    font-family: var(--mono); font-size: .72rem; letter-spacing: .06em;
+    background: var(--ink); color: var(--bg); padding: 6px 12px;
+  }
+</style>
+</head>
+<body>
+<div class="variant-badge">TEMPLATE A · BROADSHEET</div>
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="progress" aria-hidden="true"></div>
+
+<nav aria-label="Primary">
+  <div class="nav-inner">
+    <a class="nav-name" href="#top">Alec Womboldt</a>
+    <div class="nav-links" id="navLinks">
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#goals">Direction</a>
+      <a href="#personal">Off the Clock</a>
+      <a href="#education">Education</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="nav-tools">
+      <button class="icon-btn" id="paletteBtn" aria-label="Open command palette">Search <kbd>⌘K</kbd></button>
+      <button class="icon-btn" id="themeBtn" aria-label="Toggle dark mode"><span id="themeIcon">◐</span></button>
+    </div>
+  </div>
+</nav>
+
+<main id="main">
+<header id="top" class="wrap">
+  <span class="kicker">Clinical Informatics · Healthcare AI</span>
+  <h1>I build <em>AI tools for <span id="typeword">clinicians</span><span class="type-cursor" aria-hidden="true"></span></em>, grounded in eight years at the bedside.</h1>
+  <p class="lede">Critical care nurse and Stanford-trained clinical informaticist. I've redesigned EHR workflows across an academic medical center, shipped an LLM-powered policy agent for frontline nurses, and co-founded an AI scheduling platform — translating clinical reality into products that actually get used.</p>
+  <p class="creds"><strong>Alec Womboldt, MS, RN, CCRN, TCRN</strong> · Palo Alto, CA · Stanford Health Care</p>
+  <div class="cta-row">
+    <a class="btn btn-primary" href="#projects">See what I've built</a>
+    <a class="btn btn-ghost" href="https://linkedin.com/in/alec-womboldt-7bb6085b" target="_blank" rel="noopener">LinkedIn</a>
+    <button class="btn btn-ghost" data-copy-email>Copy email</button>
+  </div>
+
+  <div class="stats reveal">
+    <div class="stat"><b data-count="8" data-suffix="+ yrs">0+ yrs</b><span>Inpatient critical care experience across trauma, burn, and neuro ICUs</span></div>
+    <div class="stat"><b data-count="2">0</b><span>AI products built and shipped — one deployed to frontline staff</span></div>
+    <div class="stat"><b>Stanford</b><span>MS, Clinical Informatics Management · Epic Optimization Champion</span></div>
+  </div>
+</header>
+
+<section id="path" class="wrap reveal" aria-label="Career timeline">
+  <h2>The Path</h2>
+  <p class="section-sub">From Midwest bedside to Silicon Valley build — click a year.</p>
+  <div class="timeline">
+    <div class="tl-track" id="tlTrack" role="tablist" aria-label="Career milestones">
+      <button class="tl-node" role="tab" data-idx="0"><span class="tl-dot"></span><span class="tl-year">2012</span></button>
+      <button class="tl-node" role="tab" data-idx="1"><span class="tl-dot"></span><span class="tl-year">2017</span></button>
+      <button class="tl-node" role="tab" data-idx="2"><span class="tl-dot"></span><span class="tl-year">2018</span></button>
+      <button class="tl-node" role="tab" data-idx="3"><span class="tl-dot"></span><span class="tl-year">2020</span></button>
+      <button class="tl-node" role="tab" data-idx="4"><span class="tl-dot"></span><span class="tl-year">2025</span></button>
+      <button class="tl-node" role="tab" data-idx="5"><span class="tl-dot"></span><span class="tl-year">2026</span></button>
+    </div>
+    <div class="tl-card" id="tlCard" role="tabpanel" aria-live="polite"></div>
+  </div>
+</section>
+
+<section id="experience" class="wrap reveal">
+  <h2>Experience</h2>
+  <p class="section-sub">Where clinical practice met informatics.</p>
+
+  <div class="job">
+    <div class="job-when">June 2020 — Present</div>
+    <div>
+      <h3>Registered Nurse · Nursing Informatics</h3>
+      <div class="org">Stanford Health Care — Stanford, CA</div>
+      <ul>
+        <li>Spearheaded nurse charting transformation as <strong>Epic Optimization Champion</strong>, redesigning EHR documentation workflows across the inpatient setting to measurably reduce cognitive burden for frontline nursing staff.</li>
+        <li>Designed and deployed a <strong>generative AI staff policy query agent</strong> using Claude and Gemini Flash 2.5, enabling nurses to retrieve contract and policy guidance in seconds — shipped independently via Vercel with no prior software engineering background.</li>
+        <li>Chaired a unit committee driving improvement initiatives from conception through implementation; precepted incoming nurses and led float RN responsibilities across high-acuity critical care units.</li>
+        <li>Co-developed <strong>UNITTE</strong>, an interdisciplinary shadowing program accepted and presented at the National Teaching Institute (NTI), a national nursing conference.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="job">
+    <div class="job-when">April 2018 — May 2020</div>
+    <div>
+      <h3>Registered Nurse · Surgical &amp; Neurosciences ICUs</h3>
+      <div class="org">Corewell Health — Grand Rapids, MI</div>
+      <ul>
+        <li>Managed critical care for complex burn, trauma, and neurological populations; developed expertise in care team workflow patterns that now directly informs clinical informatics practice.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="projects" class="wrap reveal">
+  <h2>Projects</h2>
+  <p class="section-sub">Built from problems I lived at the bedside.</p>
+  <div class="cards">
+    <div class="card">
+      <span class="tag">Co-Founder · 2025–2026</span>
+      <h3>FullCircle Staffing</h3>
+      <div class="role">AI Nurse Scheduling Platform</div>
+      <p>Architected an AI-driven nurse scheduling platform from the ground up — product design, nurse advisor recruitment, workflow research, and competitive positioning against incumbents QGenda and NurseGrid.</p>
+      <p>Developed the full go-to-market strategy and mapped California regulatory exposure under AB 394, SB 596, and nursing union contracts, framing compliance as a product differentiator. Presented to Stanford faculty, clinical partners, and nursing leadership.</p>
+      <div class="stack"><span>Product Strategy</span><span>Go-to-Market</span><span>Regulatory Mapping</span><span>AI Scheduling</span></div>
+    </div>
+    <div class="card">
+      <span class="tag">Builder · 2026</span>
+      <h3>StaffQuery</h3>
+      <div class="role">Generative AI Policy Query Agent</div>
+      <p>Independently engineered an LLM-powered tool that lets nurses query contract and policy documents in natural language — eliminating a recurring friction point for frontline staff who previously dug through PDFs mid-shift.</p>
+      <p>Deployed and in use at the point of care; built end to end with no prior software engineering background.</p>
+      <details class="diagram">
+        <summary>How it works under the hood</summary>
+        <div class="diagram-box">
+          <svg viewBox="0 0 560 150" role="img" aria-label="StaffQuery retrieval-augmented generation pipeline: a nurse's question and policy PDFs feed a retrieval step, relevant passages plus the question go to the LLM, which returns a cited answer.">
+            <defs>
+              <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="currentColor" opacity=".55"/>
+              </marker>
+            </defs>
+            <rect x="8" y="14" width="104" height="44" rx="8"/>
+            <text x="60" y="33" text-anchor="middle" class="d-label">Nurse asks</text>
+            <text x="60" y="47" text-anchor="middle" class="d-sub">"Can I float to peds?"</text>
+            <rect x="8" y="92" width="104" height="44" rx="8"/>
+            <text x="60" y="111" text-anchor="middle" class="d-label">Policy PDFs</text>
+            <text x="60" y="125" text-anchor="middle" class="d-sub">contracts · protocols</text>
+            <rect x="164" y="53" width="104" height="44" rx="8"/>
+            <text x="216" y="72" text-anchor="middle" class="d-label">Retrieval</text>
+            <text x="216" y="86" text-anchor="middle" class="d-sub">chunk → embed → rank</text>
+            <rect x="320" y="53" width="104" height="44" rx="8" class="d-hot"/>
+            <text x="372" y="72" text-anchor="middle" class="d-label">LLM</text>
+            <text x="372" y="86" text-anchor="middle" class="d-sub">Claude / Gemini</text>
+            <rect x="476" y="53" width="76" height="44" rx="8"/>
+            <text x="514" y="72" text-anchor="middle" class="d-label">Answer</text>
+            <text x="514" y="86" text-anchor="middle" class="d-sub">with citations</text>
+            <path class="d-arrow" d="M112 36 C 140 36, 140 62, 162 68"/>
+            <path class="d-arrow" d="M112 114 C 140 114, 140 88, 162 82"/>
+            <path class="d-arrow" d="M268 75 L 318 75"/>
+            <path class="d-arrow" d="M424 75 L 474 75"/>
+          </svg>
+        </div>
+      </details>
+      <div class="stack"><span>Claude API</span><span>Gemini Flash 2.5</span><span>Vercel</span><span>RAG / LLM</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="goals" class="wrap reveal">
+  <h2>Where I'm Headed</h2>
+  <p class="section-sub">The next chapter.</p>
+  <div class="goals">
+    <p><strong>I'm focused on roles where clinical depth and product building intersect</strong> — clinical informatics leadership, health AI product development, and clinician-facing tooling at health systems or health tech companies.</p>
+    <p>The pattern behind everything I build: clinicians lose hours to tools designed without them. Having lived that problem for eight years and now equipped with Stanford informatics training, my goal is to lead teams that close the gap between frontline workflow reality and the technology meant to serve it. If you're building in that space, I'd like to talk.</p>
+  </div>
+</section>
+
+<section id="personal" class="wrap reveal">
+  <h2>Off the Clock</h2>
+  <p class="section-sub">The person behind the credentials.</p>
+  <div class="personal-grid">
+    <div class="personal-prose">
+      <p><strong>I came to nursing the long way.</strong> First degree in biology and sociology, NCAA cross country and track along the way — then the realization that what I actually wanted was work where the stakes are human. Nursing school in Michigan, night shifts in trauma and neuro ICUs, and eventually a one-way move from the Midwest to Palo Alto.</p>
+      <p>The through-line has always been teaching and fixing systems: precepting new ICU nurses, chairing unit committees, building shadowing programs — and eventually realizing the biggest fixable system was the software itself. The distance-runner mindset never left: I'm at my best on long, patient problems that reward showing up every day.</p>
+      <p><strong>This site is one of those problems.</strong> I taught myself to code the same way I built StaffQuery — by shipping. Scroll down to the colophon to see what's under the hood.</p>
+    </div>
+    <div class="ask-box">
+      <b>Ask me about</b>
+      <div class="chips">
+        <span>ICU night shifts</span>
+        <span>RAG on policy PDFs</span>
+        <span>Epic flowsheet design</span>
+        <span>CA nurse staffing law</span>
+        <span>Precepting new nurses</span>
+        <span>Distance running</span>
+        <span>Michigan → Bay Area</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="awards" class="wrap reveal">
+  <h2>Awards &amp; Recognition</h2>
+  <p class="section-sub">Academic and professional distinctions.</p>
+  <div class="awards">
+    <div class="award"><div class="medal">🎤</div><div><b>National Teaching Institute (NTI) Presenter</b><span>UNITTE interdisciplinary shadowing program accepted at national nursing conference</span></div></div>
+    <div class="award"><div class="medal">🎓</div><div><b>Summa Cum Laude — BSN</b><span>Eastern Michigan University, 2020</span></div></div>
+    <div class="award"><div class="medal">🏅</div><div><b>Magna Cum Laude &amp; Dean's List — AS Nursing</b><span>Lansing Community College, 2017</span></div></div>
+    <div class="award"><div class="medal">🏃</div><div><b>NCAA Cross Country &amp; Track Athlete</b><span>Manchester University</span></div></div>
+  </div>
+</section>
+
+<section id="education" class="wrap reveal">
+  <h2>Education &amp; Certifications</h2>
+  <p class="section-sub">Formal training behind the practice.</p>
+  <div class="edu-grid">
+    <div>
+      <div class="edu-item"><b>MS, Clinical Informatics Management</b><span class="school">Stanford University</span><span class="detail"> · June 2026</span></div>
+      <div class="edu-item"><b>BSN, Nursing Science</b><span class="school">Eastern Michigan University</span><span class="detail"> · May 2020 · Summa cum laude</span></div>
+      <div class="edu-item"><b>AS, Nursing Science</b><span class="school">Lansing Community College</span><span class="detail"> · Dec 2017 · Magna cum laude</span></div>
+      <div class="edu-item"><b>BS, Biology / Sociology</b><span class="school">Manchester University</span><span class="detail"> · May 2012</span></div>
+    </div>
+    <div>
+      <ul class="cert-list">
+        <li>Registered Nurse (RN), California</li>
+        <li>Critical Care Registered Nurse (CCRN)</li>
+        <li>Trauma Certified Registered Nurse (TCRN)</li>
+        <li>Advanced Cardiac Life Support (ACLS)</li>
+        <li>Basic Life Support (BLS)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="colophon" class="wrap reveal">
+  <h2>About This Site</h2>
+  <p class="section-sub">Because the site itself is part of the portfolio.</p>
+  <div class="colophon-grid">
+    <div class="colo"><b>0</b><span>frameworks, libraries, or dependencies</span></div>
+    <div class="colo"><b>0</b><span>build steps — one hand-written HTML file</span></div>
+    <div class="colo"><b>2</b><span>themes — light &amp; dark, synced to your OS</span></div>
+    <div class="colo"><b>100%</b><span>keyboard navigable &amp; reduced-motion aware</span></div>
+  </div>
+  <p class="colophon-note">Everything here — the command palette, theme system, animated timeline, and scroll-linked navigation — is vanilla HTML, CSS, and JavaScript written by hand. Theming runs on CSS custom properties, animations on <code>IntersectionObserver</code>, and the whole page ships as a single file with structured data for search engines. View source; that's the point.</p>
+  <div class="kbd-hints">
+    <span><kbd>⌘K</kbd> command palette</span>
+    <span><kbd>T</kbd> toggle theme</span>
+    <span><kbd>↑</kbd><kbd>↓</kbd> navigate palette</span>
+  </div>
+</section>
+
+<section id="contact" class="contact wrap reveal">
+  <h2>Let's Build Something Clinicians Actually Use</h2>
+  <p>Open to conversations about clinical informatics, health AI product roles, and advisory work.</p>
+  <div class="cta-row" style="justify-content:center">
+    <a class="btn btn-primary" href="mailto:aswomboldt@gmail.com">aswomboldt@gmail.com</a>
+    <button class="btn btn-ghost" data-copy-email>Copy email</button>
+    <a class="btn btn-ghost" href="https://linkedin.com/in/alec-womboldt-7bb6085b" target="_blank" rel="noopener">Connect on LinkedIn</a>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">© 2026 Alec Womboldt · Palo Alto, CA · Hand-coded, no frameworks — <a href="#colophon">here's how</a></div>
+</footer>
+
+<!-- Command palette -->
+<div class="palette-overlay" id="paletteOverlay" role="dialog" aria-modal="true" aria-label="Command palette">
+  <div class="palette">
+    <input type="text" id="paletteInput" placeholder="Jump to a section or run a command…" autocomplete="off" spellcheck="false">
+    <div class="palette-list" id="paletteList" role="listbox"></div>
+    <div class="palette-foot">
+      <span><kbd>↑↓</kbd> navigate</span><span><kbd>↵</kbd> select</span><span><kbd>esc</kbd> close</span>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(() => {
+  "use strict";
+  const $ = (s, el = document) => el.querySelector(s);
+  const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+  const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- Theme ---------- */
+  const root = document.documentElement;
+  const themeIcon = $("#themeIcon");
+  const applyTheme = (t) => {
+    root.setAttribute("data-theme", t);
+    themeIcon.textContent = t === "dark" ? "☀" : "◐";
+  };
+  const storedTheme = localStorage.getItem("theme");
+  applyTheme(storedTheme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+  const toggleTheme = () => {
+    const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    localStorage.setItem("theme", next);
+    applyTheme(next);
+  };
+  $("#themeBtn").addEventListener("click", toggleTheme);
+
+  /* ---------- Scroll progress + active nav ---------- */
+  const progress = $("#progress");
+  addEventListener("scroll", () => {
+    const max = document.documentElement.scrollHeight - innerHeight;
+    progress.style.width = (max > 0 ? (scrollY / max) * 100 : 0) + "%";
+  }, { passive: true });
+
+  const navLinks = $$("#navLinks a");
+  const sectionFor = Object.fromEntries(navLinks.map(a => [a.hash.slice(1), a]));
+  const navObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting && sectionFor[e.target.id]) {
+        navLinks.forEach(a => a.classList.remove("active"));
+        sectionFor[e.target.id].classList.add("active");
+      }
+    });
+  }, { rootMargin: "-35% 0px -55% 0px" });
+  $$("main section[id], header[id]").forEach(s => navObs.observe(s));
+
+  /* ---------- Reveal + stat counters ---------- */
+  const countUp = (el) => {
+    const target = +el.dataset.count;
+    const suffix = el.dataset.suffix || "";
+    if (reducedMotion) { el.textContent = target + suffix; return; }
+    const t0 = performance.now(), dur = 900;
+    const tick = (t) => {
+      const p = Math.min((t - t0) / dur, 1);
+      el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3))) + suffix;
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  };
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add("in");
+      $$("[data-count]", e.target).forEach(countUp);
+      revealObs.unobserve(e.target);
+    });
+  }, { threshold: 0.08 });
+  $$(".reveal").forEach(el => revealObs.observe(el));
+
+  /* ---------- Hero typewriter ---------- */
+  const words = ["clinicians", "nurses", "care teams", "hospitals"];
+  const typeEl = $("#typeword");
+  if (!reducedMotion) {
+    let wi = 0, ci = words[0].length, deleting = false;
+    const step = () => {
+      const word = words[wi];
+      ci += deleting ? -1 : 1;
+      typeEl.textContent = word.slice(0, ci);
+      let delay = deleting ? 45 : 90;
+      if (!deleting && ci === word.length) { delay = 2600; deleting = true; }
+      else if (deleting && ci === 0) { deleting = false; wi = (wi + 1) % words.length; delay = 350; }
+      setTimeout(step, delay);
+    };
+    setTimeout(step, 2600);
+  }
+
+  /* ---------- Career timeline ---------- */
+  const milestones = [
+    { org: "Manchester University", title: "BS, Biology & Sociology", text: "NCAA cross country and track athlete. First degree, and the start of a pattern: endurance sports and human systems." },
+    { org: "Lansing Community College", title: "AS, Nursing — magna cum laude", text: "The pivot to nursing. Graduated with distinction and headed straight for acute care." },
+    { org: "Corewell Health — Grand Rapids, MI", title: "ICU Registered Nurse", text: "Surgical and neurosciences ICUs: burns, trauma, and neuro populations. Where I learned how care teams really work." },
+    { org: "Stanford Health Care + EMU", title: "BSN summa cum laude → Stanford", text: "Finished the BSN with highest honors and moved west to Stanford's critical care float pool." },
+    { org: "FullCircle Staffing", title: "Co-Founder", text: "Co-founded an AI nurse scheduling platform — product, go-to-market, and California regulatory strategy." },
+    { org: "Stanford University", title: "MS, Clinical Informatics Management + StaffQuery", text: "Graduated from Stanford's CIM program and shipped StaffQuery, an LLM policy agent used by frontline nurses." },
+  ];
+  const tlNodes = $$(".tl-node");
+  const tlCard = $("#tlCard");
+  const tlTrack = $("#tlTrack");
+  const selectMilestone = (i) => {
+    tlNodes.forEach((n, j) => {
+      n.classList.toggle("active", j === i);
+      n.setAttribute("aria-selected", j === i);
+    });
+    const m = milestones[i];
+    tlCard.innerHTML = `<div class="tl-org">${m.org}</div><b>${m.title}</b><p>${m.text}</p>`;
+    tlTrack.style.setProperty("--tl-progress", (i / (milestones.length - 1)) * 100 + "%");
+  };
+  tlNodes.forEach(n => n.addEventListener("click", () => selectMilestone(+n.dataset.idx)));
+  tlTrack.addEventListener("keydown", (e) => {
+    const cur = tlNodes.findIndex(n => n.classList.contains("active"));
+    if (e.key === "ArrowRight") { e.preventDefault(); const i = Math.min(cur + 1, tlNodes.length - 1); selectMilestone(i); tlNodes[i].focus(); }
+    if (e.key === "ArrowLeft") { e.preventDefault(); const i = Math.max(cur - 1, 0); selectMilestone(i); tlNodes[i].focus(); }
+  });
+  selectMilestone(milestones.length - 1);
+
+  /* ---------- Copy email + toast ---------- */
+  const toast = $("#toast");
+  let toastTimer;
+  const showToast = (msg) => {
+    toast.textContent = msg;
+    toast.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove("show"), 2200);
+  };
+  const copyEmail = () => navigator.clipboard.writeText("aswomboldt@gmail.com")
+    .then(() => showToast("Email copied — aswomboldt@gmail.com"))
+    .catch(() => showToast("Couldn't copy — aswomboldt@gmail.com"));
+  $$("[data-copy-email]").forEach(b => b.addEventListener("click", copyEmail));
+
+  /* ---------- Command palette ---------- */
+  const overlay = $("#paletteOverlay");
+  const input = $("#paletteInput");
+  const list = $("#paletteList");
+  const commands = [
+    { icon: "◈", label: "Go to Experience", hint: "section", run: () => location.hash = "#experience" },
+    { icon: "◈", label: "Go to Projects", hint: "section", run: () => location.hash = "#projects" },
+    { icon: "◈", label: "Go to Direction", hint: "section", run: () => location.hash = "#goals" },
+    { icon: "◈", label: "Go to Off the Clock", hint: "section", run: () => location.hash = "#personal" },
+    { icon: "◈", label: "Go to Awards", hint: "section", run: () => location.hash = "#awards" },
+    { icon: "◈", label: "Go to Education", hint: "section", run: () => location.hash = "#education" },
+    { icon: "◈", label: "Go to Colophon", hint: "section", run: () => location.hash = "#colophon" },
+    { icon: "◈", label: "Go to Contact", hint: "section", run: () => location.hash = "#contact" },
+    { icon: "◐", label: "Toggle dark mode", hint: "T", run: toggleTheme },
+    { icon: "✉", label: "Copy email address", hint: "action", run: copyEmail },
+    { icon: "↗", label: "Open LinkedIn", hint: "external", run: () => open("https://linkedin.com/in/alec-womboldt-7bb6085b", "_blank", "noopener") },
+    { icon: "↑", label: "Back to top", hint: "section", run: () => scrollTo({ top: 0, behavior: reducedMotion ? "auto" : "smooth" }) },
+  ];
+  let filtered = commands, selected = 0;
+
+  const renderList = () => {
+    if (!filtered.length) { list.innerHTML = `<div class="palette-empty">No matches</div>`; return; }
+    list.innerHTML = filtered.map((c, i) =>
+      `<button class="palette-item${i === selected ? " selected" : ""}" role="option" aria-selected="${i === selected}" data-i="${i}">
+        <span class="pi-icon">${c.icon}</span>${c.label}<span class="pi-hint">${c.hint}</span>
+      </button>`).join("");
+    $$(".palette-item", list).forEach(b => b.addEventListener("click", () => runCommand(+b.dataset.i)));
+  };
+  const runCommand = (i) => { closePalette(); filtered[i] && filtered[i].run(); };
+  const openPalette = () => {
+    overlay.classList.add("open");
+    input.value = ""; filtered = commands; selected = 0;
+    renderList(); input.focus();
+  };
+  const closePalette = () => overlay.classList.remove("open");
+
+  input.addEventListener("input", () => {
+    const q = input.value.trim().toLowerCase();
+    filtered = commands.filter(c => c.label.toLowerCase().includes(q));
+    selected = 0; renderList();
+  });
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowDown") { e.preventDefault(); selected = Math.min(selected + 1, filtered.length - 1); renderList(); }
+    else if (e.key === "ArrowUp") { e.preventDefault(); selected = Math.max(selected - 1, 0); renderList(); }
+    else if (e.key === "Enter") { e.preventDefault(); runCommand(selected); }
+  });
+  overlay.addEventListener("click", (e) => { if (e.target === overlay) closePalette(); });
+  $("#paletteBtn").addEventListener("click", openPalette);
+
+  addEventListener("keydown", (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") { e.preventDefault(); overlay.classList.contains("open") ? closePalette() : openPalette(); return; }
+    if (e.key === "Escape") { closePalette(); return; }
+    const typing = /^(input|textarea|select)$/i.test(document.activeElement.tagName);
+    if (!typing && !e.metaKey && !e.ctrlKey && !e.altKey && e.key.toLowerCase() === "t") toggleTheme();
+  });
+})();
+</script>
+
+</body>
+</html>

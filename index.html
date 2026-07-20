@@ -404,6 +404,11 @@
   }
   .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
+  /* Colophon flash: the section sits too close to the page bottom for an
+     anchor jump to visibly move, so give feedback with a brief highlight */
+  @keyframes colophon-flash { from { background: var(--accent-soft); } to { background: transparent; } }
+  #colophon.flash { animation: colophon-flash 1.4s ease-out; }
+
   /* Reveal animation */
   .reveal { opacity: 0; transform: translateY(14px); transition: opacity .5s ease, transform .5s ease; }
   .reveal.in { opacity: 1; transform: none; }
@@ -412,6 +417,7 @@
     html { scroll-behavior: auto; }
     .type-cursor { animation: none; }
     .tl-track::after { transition: none; }
+    #colophon.flash { animation: none; }
   }
 
   @media (max-width: 720px) {
@@ -836,6 +842,15 @@
     .catch(() => showToast("Couldn't copy: aswomboldt@gmail.com"));
   $$("[data-copy-email]").forEach(b => b.addEventListener("click", copyEmail));
 
+  /* ---------- Colophon flash ---------- */
+  const colophon = $("#colophon");
+  const flashColophon = () => {
+    colophon.classList.remove("flash");
+    void colophon.offsetWidth;
+    colophon.classList.add("flash");
+  };
+  $$('a[href="#colophon"]').forEach(a => a.addEventListener("click", flashColophon));
+
   /* ---------- Command palette ---------- */
   const overlay = $("#paletteOverlay");
   const input = $("#paletteInput");
@@ -847,7 +862,7 @@
     { icon: "◈", label: "Go to Off the Clock", hint: "section", run: () => location.hash = "#personal" },
     { icon: "◈", label: "Go to Awards", hint: "section", run: () => location.hash = "#awards" },
     { icon: "◈", label: "Go to Education", hint: "section", run: () => location.hash = "#education" },
-    { icon: "◈", label: "Go to Colophon", hint: "section", run: () => location.hash = "#colophon" },
+    { icon: "◈", label: "Go to Colophon", hint: "section", run: () => { location.hash = "#colophon"; flashColophon(); } },
     { icon: "◈", label: "Go to Contact", hint: "section", run: () => location.hash = "#contact" },
     { icon: "◐", label: "Toggle dark mode", hint: "T", run: toggleTheme },
     { icon: "✉", label: "Copy email address", hint: "action", run: copyEmail },

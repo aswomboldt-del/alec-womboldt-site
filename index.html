@@ -182,41 +182,28 @@
   .stat b { display: block; font-family: var(--serif); font-weight: 500; font-size: 1.7rem; color: var(--accent); line-height: 1.2; font-variant-numeric: tabular-nums; }
   .stat span { font-size: .84rem; color: var(--ink-soft); }
 
-  /* Timeline */
-  .timeline { margin-top: 8px; }
-  .tl-track {
-    display: flex; justify-content: space-between; align-items: flex-start;
-    position: relative; padding: 18px 6px 0;
+  /* Timeline: all entries visible; click highlight is enhancement only */
+  .tl-list { list-style: none; margin-top: 8px; position: relative; padding-left: 30px; }
+  .tl-list::before {
+    content: ""; position: absolute; left: 7px; top: 8px; bottom: 8px;
+    width: 2px; background: var(--line);
   }
-  .tl-track::before {
-    content: ""; position: absolute; left: 12px; right: 12px; top: 27px;
-    height: 2px; background: var(--line);
+  .tl-item { position: relative; padding-bottom: 26px; cursor: default; }
+  .tl-item:last-child { padding-bottom: 0; }
+  .tl-item::before {
+    content: ""; position: absolute; left: -30px; top: 5px; width: 10px; height: 10px;
+    border-radius: 50%; background: var(--bg); border: 3px solid var(--line);
+    transition: border-color .2s ease, background .2s ease;
   }
-  .tl-track::after {
-    content: ""; position: absolute; left: 12px; top: 27px; height: 2px;
-    width: var(--tl-progress, 0%); max-width: calc(100% - 24px);
-    background: var(--accent); transition: width 1.4s cubic-bezier(.22,1,.36,1);
+  .tl-item:hover::before, .tl-item.active::before { border-color: var(--accent); }
+  .tl-item.active::before { background: var(--accent); }
+  .tl-year {
+    font-family: var(--mono); font-size: .76rem; font-weight: 600;
+    color: var(--accent); letter-spacing: .06em;
   }
-  .tl-node {
-    position: relative; z-index: 1; background: none; border: none; cursor: pointer;
-    display: flex; flex-direction: column; align-items: center; gap: 8px;
-    font-family: var(--sans); padding: 0; width: 70px;
-  }
-  .tl-dot {
-    width: 18px; height: 18px; border-radius: 50%; background: var(--bg);
-    border: 3px solid var(--line); transition: all .2s ease;
-  }
-  .tl-node:hover .tl-dot, .tl-node.active .tl-dot { border-color: var(--accent); background: var(--accent-soft); transform: scale(1.15); }
-  .tl-node.active .tl-dot { background: var(--accent); }
-  .tl-year { font-size: .74rem; font-weight: 600; color: var(--ink-faint); font-family: var(--mono); }
-  .tl-node.active .tl-year { color: var(--accent); }
-  .tl-card {
-    margin-top: 26px; background: var(--surface); border: 1px solid var(--line);
-    border-radius: 2px; padding: 22px 26px; min-height: 108px;
-  }
-  .tl-card b { font-size: 1rem; }
-  .tl-card .tl-org { color: var(--accent); font-size: .88rem; font-weight: 500; margin-bottom: 6px; }
-  .tl-card p { color: var(--ink-soft); font-size: .93rem; }
+  .tl-org { font-size: .86rem; color: var(--ink-faint); font-weight: 500; margin-left: 6px; }
+  .tl-item b { display: block; font-size: 1rem; margin-top: 2px; }
+  .tl-item p { color: var(--ink-soft); font-size: .93rem; margin-top: 2px; max-width: 640px; }
 
   /* Experience */
   .job { display: grid; grid-template-columns: 170px 1fr; gap: 28px; padding: 28px 0; }
@@ -257,6 +244,20 @@
     font-size: .76rem; color: var(--ink-soft); background: var(--bg);
     border: 1px solid var(--line); border-radius: 2px; padding: 3px 9px;
   }
+  .card-wide { grid-column: 1 / -1; }
+  .thesis {
+    font-family: var(--serif); font-style: italic; font-size: 1.18rem; line-height: 1.45;
+    color: var(--ink); border-left: 2px solid var(--accent); padding-left: 16px; margin-bottom: 18px;
+  }
+  .surfaces { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 16px; }
+  .surface {
+    background: var(--bg); border: 1px solid var(--line); border-radius: 2px; padding: 16px 18px;
+  }
+  .surface b {
+    display: block; font-size: .78rem; font-weight: 600; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--accent-dark); margin-bottom: 8px;
+  }
+  .surface p { font-size: .92rem; margin-bottom: 0; }
   details.diagram { margin-bottom: 16px; }
   details.diagram summary {
     cursor: pointer; font-size: .84rem; font-weight: 600; color: var(--accent);
@@ -285,6 +286,16 @@
   .goals p { color: var(--ink-soft); }
   .goals p + p { margin-top: 14px; }
   .goals strong { color: var(--ink); }
+  .goals ul { list-style: none; margin: 14px 0; }
+  .goals li {
+    padding-left: 20px; position: relative; margin-bottom: 10px;
+    color: var(--ink-soft); font-size: .97rem;
+  }
+  .goals li::before {
+    content: ""; position: absolute; left: 0; top: .58em;
+    width: 7px; height: 7px; border-radius: 50%; background: var(--accent-soft);
+    border: 2px solid var(--accent);
+  }
 
   /* Personal */
   .personal-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px; align-items: start; }
@@ -333,25 +344,6 @@
     content: "✓"; position: absolute; left: 2px; color: var(--accent); font-weight: 700;
   }
 
-  /* Colophon */
-  .colophon-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 28px; }
-  .colo {
-    background: var(--surface); border: 1px solid var(--line); border-radius: 2px;
-    padding: 18px 18px 16px;
-  }
-  .colo b { display: block; font-family: var(--mono); font-size: .86rem; color: var(--accent); margin-bottom: 4px; }
-  .colo span { font-size: .8rem; color: var(--ink-soft); }
-  .colophon-note { font-size: .92rem; color: var(--ink-soft); max-width: 640px; }
-  .colophon-note code {
-    font-family: var(--mono); font-size: .8rem; background: var(--code-bg);
-    border: 1px solid var(--line); border-radius: 4px; padding: 1px 6px;
-  }
-  .kbd-hints { margin-top: 18px; display: flex; gap: 18px; flex-wrap: wrap; font-size: .82rem; color: var(--ink-faint); }
-  .kbd-hints kbd {
-    font-family: var(--mono); font-size: .74rem; background: var(--code-bg);
-    border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 5px; padding: 2px 7px; color: var(--ink-soft);
-  }
-
   /* Contact / footer */
   .contact { text-align: center; padding: 80px 0 64px; }
   .contact h2 { margin-bottom: 14px; }
@@ -361,6 +353,11 @@
     font-size: .82rem; color: var(--ink-faint);
   }
   footer a { color: var(--ink-faint); }
+  .foot-kbd { margin-top: 8px; font-size: .74rem; }
+  .foot-kbd kbd {
+    font-family: var(--mono); font-size: .7rem; background: var(--code-bg);
+    border: 1px solid var(--line); border-radius: 4px; padding: 1px 5px; color: var(--ink-soft);
+  }
 
   /* Command palette */
   .palette-overlay {
@@ -404,11 +401,6 @@
   }
   .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
-  /* Colophon flash: the section sits too close to the page bottom for an
-     anchor jump to visibly move, so give feedback with a brief highlight */
-  @keyframes colophon-flash { from { background: var(--accent-soft); } to { background: transparent; } }
-  #colophon.flash { animation: colophon-flash 1.4s ease-out; }
-
   /* Reveal animation */
   .reveal { opacity: 0; transform: translateY(14px); transition: opacity .5s ease, transform .5s ease; }
   .reveal.in { opacity: 1; transform: none; }
@@ -416,8 +408,6 @@
     .reveal { opacity: 1; transform: none; transition: none; }
     html { scroll-behavior: auto; }
     .type-cursor { animation: none; }
-    .tl-track::after { transition: none; }
-    #colophon.flash { animation: none; }
   }
 
   @media (max-width: 720px) {
@@ -428,11 +418,9 @@
     .stats { grid-template-columns: 1fr; }
     .job { grid-template-columns: 1fr; gap: 6px; }
     .cards { grid-template-columns: minmax(0, 1fr); }
+    .surfaces { grid-template-columns: 1fr; }
     .awards, .edu-grid, .personal-grid { grid-template-columns: 1fr; }
-    .colophon-grid { grid-template-columns: 1fr 1fr; }
     section { padding: 48px 0; }
-    .tl-year { font-size: .66rem; }
-    .tl-node { width: 48px; }
   }
 </style>
 </head>
@@ -465,7 +453,7 @@
     <div class="hero-text">
       <span class="kicker">Clinical Informatics · Healthcare AI</span>
       <h1>I build <em>AI tools for <span id="typeword">clinicians</span><span class="type-cursor" aria-hidden="true"></span></em>, grounded in eight years at the bedside.</h1>
-      <p class="lede">I'm a critical care nurse and a Stanford-trained clinical informaticist. I spent eight years learning where hospital technology helps and where it gets in the way. Now I build the tools I wished I had at the bedside: redesigned Epic workflows, an AI policy agent nurses use mid-shift, and a scheduling platform I co-founded.</p>
+      <p class="lede">I'm a critical care nurse and a Stanford-trained clinical informaticist. I spent eight years learning where hospital technology helps and where it gets in the way. Now I build the tools I wished I had at the bedside: redesigned Epic workflows, an AI policy agent nurses use mid-shift, and a scheduling platform I co-built.</p>
       <p class="creds"><strong>Alec Womboldt, MS, RN, CCRN, TCRN</strong> · Palo Alto, CA</p>
       <div class="cta-row">
         <a class="btn btn-primary" href="#projects">See what I've built</a>
@@ -488,18 +476,39 @@
 
 <section id="path" class="wrap reveal" aria-label="Career timeline">
   <h2>The Path</h2>
-  <p class="section-sub">From Midwest bedside to Silicon Valley. Click a year.</p>
-  <div class="timeline">
-    <div class="tl-track" id="tlTrack" role="tablist" aria-label="Career milestones">
-      <button class="tl-node" role="tab" data-idx="0"><span class="tl-dot"></span><span class="tl-year">2012</span></button>
-      <button class="tl-node" role="tab" data-idx="1"><span class="tl-dot"></span><span class="tl-year">2017</span></button>
-      <button class="tl-node" role="tab" data-idx="2"><span class="tl-dot"></span><span class="tl-year">2018</span></button>
-      <button class="tl-node" role="tab" data-idx="3"><span class="tl-dot"></span><span class="tl-year">2020</span></button>
-      <button class="tl-node" role="tab" data-idx="4"><span class="tl-dot"></span><span class="tl-year">2025</span></button>
-      <button class="tl-node" role="tab" data-idx="5"><span class="tl-dot"></span><span class="tl-year">2026</span></button>
-    </div>
-    <div class="tl-card" id="tlCard" role="tabpanel" aria-live="polite"></div>
-  </div>
+  <p class="section-sub">From Midwest bedside to Silicon Valley.</p>
+  <ol class="tl-list">
+    <li class="tl-item">
+      <span class="tl-year">2012</span> <span class="tl-org">Manchester University</span>
+      <b>BS, Biology &amp; Sociology</b>
+      <p>NCAA cross country and track athlete. First degree, and the start of a pattern: endurance sports and human systems.</p>
+    </li>
+    <li class="tl-item">
+      <span class="tl-year">2017</span> <span class="tl-org">Lansing Community College</span>
+      <b>AS, Nursing</b>
+      <p>The pivot to nursing, then straight into acute care.</p>
+    </li>
+    <li class="tl-item">
+      <span class="tl-year">2018</span> <span class="tl-org">Corewell Health · Grand Rapids, MI</span>
+      <b>ICU Registered Nurse</b>
+      <p>Surgical and neurosciences ICUs: burns, trauma, and neuro populations. Where I learned how care teams really work.</p>
+    </li>
+    <li class="tl-item">
+      <span class="tl-year">2020</span> <span class="tl-org">EMU then to Stanford Health Care</span>
+      <b>BSN summa cum laude → Stanford</b>
+      <p>Finished the BSN with highest honors and moved west to Stanford's critical care region including the Surgical ICU and COVID ICU.</p>
+    </li>
+    <li class="tl-item">
+      <span class="tl-year">2025</span> <span class="tl-org">FullCircle</span>
+      <b>Co-Builder</b>
+      <p>Co-built an AI nurse scheduling platform and led product, go-to-market, and California regulatory strategy.</p>
+    </li>
+    <li class="tl-item">
+      <span class="tl-year">2026</span> <span class="tl-org">Stanford University</span>
+      <b>MS, Clinical Informatics Management + StaffQuery</b>
+      <p>Graduated from Stanford's CIM program and shipped StaffQuery, an LLM policy agent used by frontline nurses.</p>
+    </li>
+  </ol>
 </section>
 
 <section id="experience" class="wrap reveal">
@@ -536,24 +545,28 @@
   <h2>Projects</h2>
   <p class="section-sub">Built from problems I lived at the bedside.</p>
   <div class="cards">
-    <div class="card">
-      <span class="tag">Co-Founder · 2025–2026</span>
-      <h3>FullCircle Staffing</h3>
-      <div class="role">AI Nurse Scheduling Platform</div>
-      <p>Designed an AI nurse scheduling platform from the ground up: product, workflow research, nurse advisor recruitment, and positioning against incumbents QGenda and NurseGrid.</p>
-      <p>Built the go-to-market strategy and mapped California regulatory exposure under AB 394, SB 596, and nursing union contracts, turning compliance into a differentiator. Presented to Stanford faculty, clinical partners, and nursing leadership.</p>
-      <div class="stack"><span>Product Strategy</span><span>Go-to-Market</span><span>Regulatory Mapping</span><span>AI Scheduling</span></div>
-    </div>
-    <div class="card">
-      <span class="tag">Builder · 2026</span>
-      <h3>StaffQuery</h3>
-      <div class="role">Generative AI Policy Query Agent</div>
-      <p>Nurses used to dig through PDFs mid-shift to answer contract and policy questions. I built a tool that lets them ask in plain language and get an answer in seconds.</p>
-      <p>It's deployed and in use at the point of care. I built it end to end while teaching myself to code.</p>
+    <div class="card card-wide">
+      <span class="tag">Co-Builder · 2025–2026</span>
+      <h3>FullCircle</h3>
+      <div class="role">Nurse Scheduling Platform with a Contract and Policy Assistant</div>
+      <p class="thesis">Fair to nurses, defensible for managers, citation backed for both.</p>
+      <p>FullCircle is one product with two surfaces: a scheduling platform and a contract and policy assistant, both grounded in the same corpus of union contract and staffing policy documents. The schedule and the answers agree with each other because they read from the same source.</p>
+      <div class="surfaces">
+        <div class="surface">
+          <b>Manager surface</b>
+          <p>Roster upload by CSV, availability collection, constraint aware monthly schedule generation, live coverage and gap tracking, time off and swap handling, and publishing.</p>
+        </div>
+        <div class="surface">
+          <b>Nurse surface</b>
+          <p>Sign in to view your schedule, submit availability, and request time off or swaps. A mobile first assistant answers contract and policy questions in plain language, with citations to document and page.</p>
+        </div>
+      </div>
+      <p><strong>The hard technical problem:</strong> where a hospital policy conflicts with the union contract, the contract takes precedence. That precedence rule has to be encoded in how the system retrieves and answers, not left for the model to guess.</p>
+      <p>The assistant is deployed and in use at the point of care. I built the platform end to end while teaching myself to code, and paired it with a go-to-market strategy, California regulatory mapping under AB 394 and SB 596, and presentations to Stanford faculty, clinical partners, and nursing leadership.</p>
       <details class="diagram">
         <summary>How it works under the hood</summary>
         <div class="diagram-box">
-          <svg viewBox="0 0 560 150" role="img" aria-label="StaffQuery retrieval-augmented generation pipeline: a nurse's question and policy PDFs feed a retrieval step, relevant passages plus the question go to the LLM, which returns a cited answer.">
+          <svg viewBox="0 0 560 150" role="img" aria-label="Assistant retrieval-augmented generation pipeline: a nurse's question and policy documents feed a retrieval step, relevant passages plus the question go to the LLM, which returns a cited answer.">
             <defs>
               <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
                 <path d="M0,0 L10,5 L0,10 z" fill="currentColor" opacity=".55"/>
@@ -581,7 +594,7 @@
           </svg>
         </div>
       </details>
-      <div class="stack"><span>Claude API</span><span>Gemini Flash 2.5</span><span>Vercel</span><span>RAG / LLM</span></div>
+      <div class="stack"><span>Product Strategy</span><span>Constraint Scheduling</span><span>RAG / LLM</span><span>Claude API</span><span>Gemini Flash 2.5</span><span>Vercel</span><span>Regulatory Mapping</span></div>
     </div>
     <div class="card">
       <span class="tag">Co-Creator · Stanford Health Care</span>
@@ -596,42 +609,38 @@
 
 <section id="goals" class="wrap reveal">
   <h2>Where I'm Headed</h2>
-  <p class="section-sub">The next chapter.</p>
+  <div class="goals">
+    <p><strong>I'm aiming where clinical depth meets AI product work.</strong> Clinicians lose hours to tools designed without them. I lived that problem for eight years, and Stanford gave me the training to fix it. Depending on the team, that work takes a few shapes:</p>
+    <ul>
+      <li><strong>Clinical Product Manager / Product Specialist:</strong> helping design, test, and refine AI agent workflows that interact with vitals, medication titrations, and clinical alerts.</li>
+      <li><strong>Clinical Informatics &amp; Implementation Lead:</strong> managing technical rollouts, Epic integrations, and protocol configurations for newly signed health systems.</li>
+      <li><strong>Clinical AI Safety &amp; Operations Specialist:</strong> evaluating automated AI model output against evidence based guidelines and ensuring safety guardrails hold true across patient interactions.</li>
+    </ul>
+    <p>I'm also open to health system informatics leadership where the same product mindset applies. If you're building in this space, I'd like to talk.</p>
+  </div>
+</section>
+
+<section id="personal" class="wrap reveal">
+  <h2>Off the Clock</h2>
   <div class="personal-grid">
-    <div class="goals">
-      <p><strong>I'm focused on roles where clinical depth and product building meet:</strong> clinical informatics leadership, health AI product development, and clinician-facing tools at health systems or health tech companies.</p>
-      <p>Everything I build comes back to the same problem. Clinicians lose hours to tools designed without them. I lived that problem for eight years, and Stanford gave me the training to fix it. I want to lead teams that close the gap between frontline reality and the technology meant to serve it. If you're building in that space, I'd like to talk.</p>
+    <div class="personal-prose">
+      <p><strong>I came to nursing the long way.</strong> My first degree was in biology and sociology, with NCAA cross country and track along the way. I didn't really understand what nurses did until I worked with them. Then I realized they carry a huge part of care delivery and are essentially healthcare's operations champions. Nursing school in Michigan, night shifts in trauma and neuro ICUs, and eventually a move west to Palo Alto.</p>
+      <p>The thread has always been thinking critically, learning, and fixing systems. I precepted new ICU nurses, chaired unit committees, and built shadowing programs. Along the way I learned that most challenges sort into buckets of people, process, or technology, and putting a problem in the right bucket is often how you find its root cause. The distance runner mindset never left either. I've finished the Boston Marathon three times (2018, 2023, and 2024), and I'm at my best on long, patient problems that reward showing up every day.</p>
+      <p><strong>This site is one of those problems.</strong> I built it the same way I built FullCircle, by shipping, with AI as my pair programmer.</p>
     </div>
     <div class="ask-box">
-      <b>Let's have a conversation about</b>
+      <b>Ask me about</b>
       <div class="chips">
         <span>Health policy</span>
         <span>Epic flowsheet design</span>
         <span>Sepsis prediction models</span>
         <span>Precepting</span>
         <span>Critical care nursing</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="personal" class="wrap reveal">
-  <h2>Off the Clock</h2>
-  <p class="section-sub">The person behind the credentials.</p>
-  <div class="personal-grid">
-    <div class="personal-prose">
-      <p><strong>I came to nursing the long way.</strong> My first degree was in biology and sociology, with NCAA cross country and track along the way. I didn't really understand what nurses did until I worked with them. Then I realized they carry a huge part of care delivery and are essentially healthcare's operations champions. Nursing school in Michigan, night shifts in trauma and neuro ICUs, and eventually a move west to Palo Alto.</p>
-      <p>The thread has always been thinking critically, learning, and fixing systems. I precepted new ICU nurses, chaired unit committees, and built shadowing programs. Along the way I learned that most challenges sort into buckets of people, process, or technology, and putting a problem in the right bucket is often how you find its root cause. The distance runner mindset never left either. I've finished the Boston Marathon three times (2018, 2023, and 2024), and I'm at my best on long, patient problems that reward showing up every day.</p>
-      <p><strong>This site is one of those problems.</strong> I built it the same way I built StaffQuery, by shipping, with AI as my pair programmer. Scroll down to the colophon to see what's under the hood.</p>
-    </div>
-    <div class="ask-box">
-      <b>Ask me about</b>
-      <div class="chips">
         <span>College cross country</span>
         <span>Distance running</span>
         <span>Cycling</span>
         <span>Running shoes</span>
-        <span>Precedents thinking</span>
+        <span>First principles thinking</span>
         <span>Podcasts</span>
         <span>Nonfiction books</span>
       </div>
@@ -641,24 +650,20 @@
 
 <section id="awards" class="wrap reveal">
   <h2>Awards &amp; Recognition</h2>
-  <p class="section-sub">Academic and professional distinctions.</p>
   <div class="awards">
     <div class="award"><div class="medal">🏆</div><div><b>Unit Nurse of the Year, K4 SICU</b><span>Voted by unit staff · Stanford Health Care, Nurses Week 2024</span></div></div>
     <div class="award"><div class="medal">🎤</div><div><b>National Teaching Institute (NTI) Presenter</b><span>UNITTE interdisciplinary shadowing program accepted at national nursing conference</span></div></div>
-    <div class="award"><div class="medal">🏃</div><div><b>Manchester University Athletic Hall of Fame</b><span>Inducted with the 2009 men's cross country team</span></div></div>
     <div class="award"><div class="medal">🎓</div><div><b>Summa Cum Laude, BSN</b><span>Eastern Michigan University, 2020</span></div></div>
   </div>
 </section>
 
 <section id="education" class="wrap reveal">
   <h2>Education &amp; Certifications</h2>
-  <p class="section-sub">Formal training behind the practice.</p>
   <div class="edu-grid">
     <div>
       <div class="edu-item"><b>MS, Clinical Informatics Management</b><span class="school">Stanford University</span><span class="detail"> · June 2026</span></div>
       <div class="edu-item"><b>BSN, Nursing Science</b><span class="school">Eastern Michigan University</span><span class="detail"> · May 2020 · Summa cum laude</span></div>
-      <div class="edu-item"><b>AS, Nursing Science</b><span class="school">Lansing Community College</span><span class="detail"> · Dec 2017</span></div>
-      <div class="edu-item"><b>BS, Biology / Sociology</b><span class="school">Manchester University</span><span class="detail"> · May 2012</span></div>
+      <div class="edu-item"><b>AS, Nursing Science &amp; BS, Biology / Sociology</b><span class="detail">Lansing Community College, 2017 · Manchester University, 2012</span></div>
     </div>
     <div>
       <ul class="cert-list">
@@ -669,23 +674,6 @@
         <li>Basic Life Support (BLS)</li>
       </ul>
     </div>
-  </div>
-</section>
-
-<section id="colophon" class="wrap reveal">
-  <h2>About This Site</h2>
-  <p class="section-sub">Because the site itself is part of the portfolio.</p>
-  <div class="colophon-grid">
-    <div class="colo"><b>0</b><span>frameworks, libraries, or dependencies</span></div>
-    <div class="colo"><b>0</b><span>build steps, just one HTML file</span></div>
-    <div class="colo"><b>2</b><span>themes, light and dark, synced to your OS</span></div>
-    <div class="colo"><b>100%</b><span>keyboard navigable &amp; reduced-motion aware</span></div>
-  </div>
-  <p class="colophon-note">Everything here, from the command palette to the theme system to the animated timeline, is vanilla HTML, CSS, and JavaScript, built in collaboration with Claude. Theming runs on CSS custom properties, animations on <code>IntersectionObserver</code>, and the whole page ships as a single file with structured data for search engines. Even the headshot is embedded in the file. View source; that's the point.</p>
-  <div class="kbd-hints">
-    <span><kbd>⌘K</kbd> command palette</span>
-    <span><kbd>T</kbd> toggle theme</span>
-    <span><kbd>↑</kbd><kbd>↓</kbd> navigate palette</span>
   </div>
 </section>
 
@@ -701,7 +689,10 @@
 </main>
 
 <footer>
-  <div class="wrap">© 2026 Alec Womboldt · Palo Alto, CA · One file, no frameworks. <a href="#colophon">Here's how</a></div>
+  <div class="wrap">
+    <p>© 2026 Alec Womboldt · Palo Alto, CA · I built this site myself with Claude as a pair programmer, the same way I built FullCircle.</p>
+    <p class="foot-kbd"><kbd>⌘K</kbd> command palette · <kbd>T</kbd> toggle theme</p>
+  </div>
 </footer>
 
 <!-- Command palette (⌘K) -->
@@ -799,34 +790,11 @@
     setTimeout(step, 2600);
   }
 
-  /* ---------- Career timeline ---------- */
-  const milestones = [
-    { org: "Manchester University", title: "BS, Biology & Sociology", text: "NCAA cross country and track athlete. First degree, and the start of a pattern: endurance sports and human systems." },
-    { org: "Lansing Community College", title: "AS, Nursing, magna cum laude", text: "The pivot to nursing. Graduated with distinction and headed straight for acute care." },
-    { org: "Corewell Health · Grand Rapids, MI", title: "ICU Registered Nurse", text: "Surgical and neurosciences ICUs: burns, trauma, and neuro populations. Where I learned how care teams really work." },
-    { org: "EMU then to Stanford Health Care", title: "BSN summa cum laude → Stanford", text: "Finished the BSN with highest honors and moved west to Stanford's critical care region including the Surgical ICU and COVID ICU." },
-    { org: "FullCircle Staffing", title: "Co-Founder", text: "Co-founded an AI nurse scheduling platform and led product, go-to-market, and California regulatory strategy." },
-    { org: "Stanford University", title: "MS, Clinical Informatics Management + StaffQuery", text: "Graduated from Stanford's CIM program and shipped StaffQuery, an LLM policy agent used by frontline nurses." },
-  ];
-  const tlNodes = $$(".tl-node");
-  const tlCard = $("#tlCard");
-  const tlTrack = $("#tlTrack");
-  const selectMilestone = (i) => {
-    tlNodes.forEach((n, j) => {
-      n.classList.toggle("active", j === i);
-      n.setAttribute("aria-selected", j === i);
-    });
-    const m = milestones[i];
-    tlCard.innerHTML = `<div class="tl-org">${m.org}</div><b>${m.title}</b><p>${m.text}</p>`;
-    tlTrack.style.setProperty("--tl-progress", (i / (milestones.length - 1)) * 100 + "%");
-  };
-  tlNodes.forEach(n => n.addEventListener("click", () => selectMilestone(+n.dataset.idx)));
-  tlTrack.addEventListener("keydown", (e) => {
-    const cur = tlNodes.findIndex(n => n.classList.contains("active"));
-    if (e.key === "ArrowRight") { e.preventDefault(); const i = Math.min(cur + 1, tlNodes.length - 1); selectMilestone(i); tlNodes[i].focus(); }
-    if (e.key === "ArrowLeft") { e.preventDefault(); const i = Math.max(cur - 1, 0); selectMilestone(i); tlNodes[i].focus(); }
-  });
-  selectMilestone(milestones.length - 1);
+  /* ---------- Career timeline (content lives in markup; click highlight only) ---------- */
+  const tlItems = $$(".tl-item");
+  tlItems.forEach(item => item.addEventListener("click", () => {
+    tlItems.forEach(i => i.classList.toggle("active", i === item));
+  }));
 
   /* ---------- Copy email + toast ---------- */
   const toast = $("#toast");
@@ -842,15 +810,6 @@
     .catch(() => showToast("Couldn't copy: aswomboldt@gmail.com"));
   $$("[data-copy-email]").forEach(b => b.addEventListener("click", copyEmail));
 
-  /* ---------- Colophon flash ---------- */
-  const colophon = $("#colophon");
-  const flashColophon = () => {
-    colophon.classList.remove("flash");
-    void colophon.offsetWidth;
-    colophon.classList.add("flash");
-  };
-  $$('a[href="#colophon"]').forEach(a => a.addEventListener("click", flashColophon));
-
   /* ---------- Command palette ---------- */
   const overlay = $("#paletteOverlay");
   const input = $("#paletteInput");
@@ -862,7 +821,6 @@
     { icon: "◈", label: "Go to Off the Clock", hint: "section", run: () => location.hash = "#personal" },
     { icon: "◈", label: "Go to Awards", hint: "section", run: () => location.hash = "#awards" },
     { icon: "◈", label: "Go to Education", hint: "section", run: () => location.hash = "#education" },
-    { icon: "◈", label: "Go to Colophon", hint: "section", run: () => { location.hash = "#colophon"; flashColophon(); } },
     { icon: "◈", label: "Go to Contact", hint: "section", run: () => location.hash = "#contact" },
     { icon: "◐", label: "Toggle dark mode", hint: "T", run: toggleTheme },
     { icon: "✉", label: "Copy email address", hint: "action", run: copyEmail },

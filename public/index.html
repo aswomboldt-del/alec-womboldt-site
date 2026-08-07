@@ -357,9 +357,40 @@
   }
 
   /* Contact / footer */
-  .contact { text-align: center; padding: 80px 0 64px; }
+  .contact { text-align: center; padding: 72px 0 64px; }
   .contact h2 { margin-bottom: 14px; }
-  .contact p { color: var(--ink-soft); max-width: 520px; margin: 0 auto 30px; }
+  .contact > .section-sub { color: var(--ink-soft); max-width: 520px; margin: 0 auto 38px; }
+  .contact-card {
+    display: grid; grid-template-columns: 208px 1fr; gap: 34px; align-items: center;
+    text-align: left; max-width: 700px; margin: 0 auto;
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 2px; padding: 32px;
+  }
+  .contact-portrait { margin: 0; }
+  .contact-portrait img {
+    width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: center 15%;
+    display: block; border: 1px solid var(--line); border-radius: 2px;
+  }
+  .contact-name {
+    font-family: var(--serif); font-size: 1.55rem; color: var(--ink);
+    max-width: none; margin: 0 0 18px; line-height: 1.2;
+  }
+  .contact-name span {
+    display: block; margin-top: 6px; font-family: var(--sans); font-size: .74rem;
+    font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-faint);
+  }
+  .contact-list > div {
+    display: grid; grid-template-columns: 88px 1fr; gap: 12px; align-items: baseline;
+    padding: 9px 0; border-top: 1px solid var(--line);
+  }
+  .contact-list dt {
+    font-size: .72rem; font-weight: 600; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--ink-faint);
+  }
+  .contact-list dd { font-size: .97rem; color: var(--ink); }
+  .contact-list a { color: var(--accent); text-decoration: none; }
+  .contact-list a:hover { text-decoration: underline; }
+  .contact-details .cta-row { margin-top: 24px; }
   footer {
     border-top: 1px solid var(--line); padding: 26px 0; text-align: center;
     font-size: .82rem; color: var(--ink-faint);
@@ -439,6 +470,10 @@
     .cards { grid-template-columns: minmax(0, 1fr); }
     .surfaces { grid-template-columns: 1fr; }
     .awards, .edu-grid, .personal-grid { grid-template-columns: 1fr; }
+    .contact-card { grid-template-columns: 1fr; gap: 26px; padding: 26px; text-align: center; }
+    .contact-portrait { max-width: 210px; margin: 0 auto; }
+    .contact-list { text-align: left; }
+    .contact-details .cta-row { justify-content: center; }
     section { padding: 48px 0; }
   }
 </style>
@@ -452,6 +487,7 @@
   <div class="nav-inner">
     <a class="nav-name" href="#top">Alec Womboldt</a>
     <div class="nav-links" id="navLinks" role="tablist" aria-label="Sections">
+      <a href="#home" role="tab" id="tab-home" aria-controls="panel-home">Home</a>
       <a href="#experience" role="tab" id="tab-experience" aria-controls="panel-experience">Experience</a>
       <a href="#projects" role="tab" id="tab-projects" aria-controls="panel-projects">Projects</a>
       <a href="#direction" role="tab" id="tab-direction" aria-controls="panel-direction">Direction</a>
@@ -467,6 +503,7 @@
 </nav>
 
 <main id="main">
+<div class="tabpanel" id="panel-home" role="tabpanel" aria-labelledby="tab-home" tabindex="-1">
 <header id="top" class="wrap">
   <div class="hero-grid">
     <div class="hero-text">
@@ -492,6 +529,7 @@
     <div class="stat"><b>Stanford</b><span>MS, Clinical Informatics Management · Epic Optimization Champion</span></div>
   </div>
 </header>
+</div>
 
 <div class="tabpanel" id="panel-experience" role="tabpanel" aria-labelledby="tab-experience" tabindex="-1">
 <section id="path" class="wrap reveal" aria-label="Career timeline">
@@ -715,11 +753,24 @@
 <div class="tabpanel" id="panel-contact" role="tabpanel" aria-labelledby="tab-contact" tabindex="-1">
 <section id="contact" class="contact wrap reveal">
   <h2>Let's Build Something Clinicians Actually Use</h2>
-  <p>Open to conversations about clinical informatics, health AI product roles, and advisory work.</p>
-  <div class="cta-row" style="justify-content:center">
-    <a class="btn btn-primary" href="mailto:aswomboldt@gmail.com">aswomboldt@gmail.com</a>
-    <button class="btn btn-ghost" data-copy-email>Copy email</button>
-    <a class="btn btn-ghost" href="https://linkedin.com/in/alec-womboldt-7bb6085b" target="_blank" rel="noopener">Connect on LinkedIn</a>
+  <p class="section-sub">Open to conversations about health AI product roles, clinical informatics, and advisory work.</p>
+  <div class="contact-card">
+    <figure class="contact-portrait">
+      <img src="headshot.jpg" alt="Alec Womboldt" width="640" height="800" loading="lazy">
+    </figure>
+    <div class="contact-details">
+      <p class="contact-name">Alec Womboldt<span>MS, RN, CCRN, TCRN</span></p>
+      <dl class="contact-list">
+        <div><dt>Email</dt><dd><a href="mailto:aswomboldt@gmail.com">aswomboldt@gmail.com</a></dd></div>
+        <div><dt>Phone</dt><dd><a href="tel:+15172859193">517.285.9193</a></dd></div>
+        <div><dt>LinkedIn</dt><dd><a href="https://linkedin.com/in/alec-womboldt-7bb6085b" target="_blank" rel="noopener">alec-womboldt</a></dd></div>
+        <div><dt>Based in</dt><dd>Palo Alto, CA</dd></div>
+      </dl>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="mailto:aswomboldt@gmail.com">Email me</a>
+        <button class="btn btn-ghost" data-copy-email>Copy email</button>
+      </div>
+    </div>
   </div>
 </section>
 </div>
@@ -782,7 +833,7 @@
   const panels = $$(".tabpanel");
   const tabByName = Object.fromEntries(tabs.map(t => [t.hash.slice(1), t]));
   // sections that share a panel, plus the older hashes they replaced
-  const alias = { path: "experience", awards: "education", goals: "direction", personal: "about" };
+  const alias = { path: "experience", awards: "education", goals: "direction", personal: "about", top: "home" };
   const resolve = (raw) => {
     const n = (raw || "").replace(/^#/, "");
     return tabByName[n] ? n : (tabByName[alias[n]] ? alias[n] : null);
@@ -808,11 +859,10 @@
     const panel = document.getElementById(panelId);
     // the reveal observer can never fire inside a hidden panel, so settle it here
     $$(".reveal", panel).forEach(el => el.classList.add("in"));
-    if (scroll) {
-      const navH = $("nav").offsetHeight;
-      const top = panel.getBoundingClientRect().top;
-      if (top < navH) scrollTo({ top: scrollY + top - navH - 8, behavior: reducedMotion ? "auto" : "smooth" });
-    }
+    // Each panel starts directly under the nav, so the top of the page is the top of
+    // the tab. Jump instantly: swapping panels changes page height mid-animation, which
+    // cancels a smooth scroll and strands the reader in the middle of the new section.
+    if (scroll && scrollY > 0) scrollTo({ top: 0, behavior: "instant" });
   };
 
   const goTab = (name) => { showTab(name, { scroll: true }); history.replaceState(null, "", "#" + name); };
@@ -852,7 +902,7 @@
     if (name) showTab(name, { scroll: true });
   });
 
-  showTab(resolve(location.hash) || "experience");
+  showTab(resolve(location.hash) || "home");
 
   /* ---------- Reveal + stat counters ---------- */
   const countUp = (el) => {
@@ -919,6 +969,7 @@
   const input = $("#paletteInput");
   const list = $("#paletteList");
   const commands = [
+    { icon: "◈", label: "Go to Home", hint: "tab", run: () => goTab("home") },
     { icon: "◈", label: "Go to Experience", hint: "tab", run: () => goTab("experience") },
     { icon: "◈", label: "Go to Projects", hint: "tab", run: () => goTab("projects") },
     { icon: "◈", label: "Go to Direction", hint: "tab", run: () => goTab("direction") },

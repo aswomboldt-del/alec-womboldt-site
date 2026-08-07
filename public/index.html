@@ -114,8 +114,11 @@
     content: ""; position: absolute; left: 0; bottom: -2px; height: 2px; width: 0;
     background: var(--accent); transition: width .2s ease; border-radius: 2px;
   }
-  .nav-links a:hover, .nav-links a.active { color: var(--accent); }
-  .nav-links a.active::after { width: 100%; }
+  .nav-links a:hover, .nav-links a[aria-selected="true"] { color: var(--accent); }
+  .nav-links a[aria-selected="true"] { font-weight: 600; }
+  .nav-links a[aria-selected="true"]::after { width: 100%; }
+  .tabpanel[hidden] { display: none; }
+  .tabpanel:focus { outline: none; }
   .nav-tools { display: flex; gap: 10px; align-items: center; }
   .icon-btn {
     background: var(--surface); border: 1px solid var(--line); color: var(--ink-soft);
@@ -420,7 +423,14 @@
   }
 
   @media (max-width: 720px) {
-    .nav-links { display: none; }
+    /* Tab bar wraps to its own scrollable row so sections stay reachable */
+    .nav-inner { flex-wrap: wrap; gap: 10px 16px; padding: 12px 24px; }
+    .nav-links {
+      order: 3; width: 100%; flex-wrap: nowrap; gap: 18px;
+      overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch;
+    }
+    .nav-links::-webkit-scrollbar { display: none; }
+    .nav-links a { white-space: nowrap; font-size: .88rem; }
     header { padding: 56px 0 48px; }
     .hero-grid { grid-template-columns: 1fr; gap: 40px; }
     .portrait { max-width: 300px; }
@@ -441,13 +451,13 @@
 <nav aria-label="Primary">
   <div class="nav-inner">
     <a class="nav-name" href="#top">Alec Womboldt</a>
-    <div class="nav-links" id="navLinks">
-      <a href="#experience">Experience</a>
-      <a href="#projects">Projects</a>
-      <a href="#goals">Direction</a>
-      <a href="#personal">Off the Clock</a>
-      <a href="#education">Education</a>
-      <a href="#contact">Contact</a>
+    <div class="nav-links" id="navLinks" role="tablist" aria-label="Sections">
+      <a href="#experience" role="tab" id="tab-experience" aria-controls="panel-experience">Experience</a>
+      <a href="#projects" role="tab" id="tab-projects" aria-controls="panel-projects">Projects</a>
+      <a href="#direction" role="tab" id="tab-direction" aria-controls="panel-direction">Direction</a>
+      <a href="#about" role="tab" id="tab-about" aria-controls="panel-about">About Me</a>
+      <a href="#education" role="tab" id="tab-education" aria-controls="panel-education">Education</a>
+      <a href="#contact" role="tab" id="tab-contact" aria-controls="panel-contact">Contact</a>
     </div>
     <div class="nav-tools">
       <button class="icon-btn" id="paletteBtn" aria-label="Open command palette">Search <kbd>⌘K</kbd></button>
@@ -463,7 +473,7 @@
       <span class="kicker">Clinical Informatics · Healthcare AI</span>
       <h1>I build <em>AI tools for <span id="typeword">clinicians</span><span class="type-cursor" aria-hidden="true"></span></em>, grounded in eight years at the bedside.</h1>
       <p class="lede">I'm a critical care nurse and a Stanford-trained clinical informaticist. I spent eight years learning where hospital technology helps and where it gets in the way. Now I build the tools I wished I had at the bedside: redesigned Epic workflows, an AI policy agent nurses use mid-shift, and a scheduling platform I co-built.</p>
-      <p class="creds"><strong>Alec Womboldt, MS, RN, CCRN, TCRN</strong> · Palo Alto, CA</p>
+      <p class="creds"><strong>Alec Womboldt, MS, RN, CCRN, TCRN</strong></p>
       <div class="cta-row">
         <a class="btn btn-primary" href="#projects">See what I've built</a>
         <a class="btn btn-ghost" href="https://linkedin.com/in/alec-womboldt-7bb6085b" target="_blank" rel="noopener">LinkedIn</a>
@@ -483,6 +493,7 @@
   </div>
 </header>
 
+<div class="tabpanel" id="panel-experience" role="tabpanel" aria-labelledby="tab-experience" tabindex="-1">
 <section id="path" class="wrap reveal" aria-label="Career timeline">
   <h2>The Path</h2>
   <p class="section-sub">From Midwest bedside to Silicon Valley.</p>
@@ -544,12 +555,15 @@
       <h3>Registered Nurse · Surgical &amp; Neurosciences ICUs</h3>
       <div class="org">Corewell Health · Grand Rapids, MI</div>
       <ul>
+        <li>Started as a new graduate RN in the ICU and built the foundation for exceptional assessment skills and patient care.</li>
         <li>Cared for complex burn, trauma, and neuro patients. Those years taught me how care teams actually work, and that understanding anchors everything I build now.</li>
       </ul>
     </div>
   </div>
 </section>
+</div>
 
+<div class="tabpanel" id="panel-projects" role="tabpanel" aria-labelledby="tab-projects" tabindex="-1">
 <section id="projects" class="wrap reveal">
   <h2>Projects</h2>
   <p class="section-sub">Built from problems I lived at the bedside.</p>
@@ -615,8 +629,10 @@
     </div>
   </div>
 </section>
+</div>
 
-<section id="goals" class="wrap reveal">
+<div class="tabpanel" id="panel-direction" role="tabpanel" aria-labelledby="tab-direction" tabindex="-1">
+<section id="direction" class="wrap reveal">
   <h2>Where I'm Headed</h2>
   <p class="section-sub">The next chapter.</p>
   <div class="goals">
@@ -629,9 +645,11 @@
     <p>I'm also open to health system informatics leadership where the same product mindset applies. If you're building in this space, I'd like to talk.</p>
   </div>
 </section>
+</div>
 
-<section id="personal" class="wrap reveal">
-  <h2>Off the Clock</h2>
+<div class="tabpanel" id="panel-about" role="tabpanel" aria-labelledby="tab-about" tabindex="-1">
+<section id="about" class="wrap reveal">
+  <h2>About Me</h2>
   <p class="section-sub">The person behind the credentials.</p>
   <div class="personal-grid">
     <div class="personal-prose">
@@ -658,7 +676,9 @@
     </div>
   </div>
 </section>
+</div>
 
+<div class="tabpanel" id="panel-education" role="tabpanel" aria-labelledby="tab-education" tabindex="-1">
 <section id="awards" class="wrap reveal">
   <h2>Awards &amp; Recognition</h2>
   <p class="section-sub">Academic and professional distinctions.</p>
@@ -690,7 +710,9 @@
     </div>
   </div>
 </section>
+</div>
 
+<div class="tabpanel" id="panel-contact" role="tabpanel" aria-labelledby="tab-contact" tabindex="-1">
 <section id="contact" class="contact wrap reveal">
   <h2>Let's Build Something Clinicians Actually Use</h2>
   <p>Open to conversations about clinical informatics, health AI product roles, and advisory work.</p>
@@ -700,6 +722,7 @@
     <a class="btn btn-ghost" href="https://linkedin.com/in/alec-womboldt-7bb6085b" target="_blank" rel="noopener">Connect on LinkedIn</a>
   </div>
 </section>
+</div>
 </main>
 
 <footer>
@@ -752,17 +775,84 @@
     progress.style.width = (max > 0 ? (scrollY / max) * 100 : 0) + "%";
   }, { passive: true });
 
-  const navLinks = $$("#navLinks a");
-  const sectionFor = Object.fromEntries(navLinks.map(a => [a.hash.slice(1), a]));
-  const navObs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting && sectionFor[e.target.id]) {
-        navLinks.forEach(a => a.classList.remove("active"));
-        sectionFor[e.target.id].classList.add("active");
-      }
+  /* ---------- Tabs: one section at a time ----------
+     Panels are visible in the markup and only hidden here, so a reader
+     without JS still gets the whole page as one scroll. */
+  const tabs = $$("#navLinks a[role=tab]");
+  const panels = $$(".tabpanel");
+  const tabByName = Object.fromEntries(tabs.map(t => [t.hash.slice(1), t]));
+  // sections that share a panel, plus the older hashes they replaced
+  const alias = { path: "experience", awards: "education", goals: "direction", personal: "about" };
+  const resolve = (raw) => {
+    const n = (raw || "").replace(/^#/, "");
+    return tabByName[n] ? n : (tabByName[alias[n]] ? alias[n] : null);
+  };
+
+  const showTab = (name, { scroll = false } = {}) => {
+    const tab = tabByName[name];
+    if (!tab) return;
+    const panelId = tab.getAttribute("aria-controls");
+    tabs.forEach(t => {
+      const on = t === tab;
+      t.setAttribute("aria-selected", on);
+      t.tabIndex = on ? 0 : -1;
     });
-  }, { rootMargin: "-35% 0px -55% 0px" });
-  $$("main section[id], header[id]").forEach(s => navObs.observe(s));
+    panels.forEach(p => { p.hidden = p.id !== panelId; });
+    // on narrow screens the tab bar scrolls, so keep the active tab in view
+    const bar = $("#navLinks");
+    if (bar.scrollWidth > bar.clientWidth) {
+      const t = tab.getBoundingClientRect(), b = bar.getBoundingClientRect();
+      if (t.left < b.left) bar.scrollLeft -= (b.left - t.left) + 16;
+      else if (t.right > b.right) bar.scrollLeft += (t.right - b.right) + 16;
+    }
+    const panel = document.getElementById(panelId);
+    // the reveal observer can never fire inside a hidden panel, so settle it here
+    $$(".reveal", panel).forEach(el => el.classList.add("in"));
+    if (scroll) {
+      const navH = $("nav").offsetHeight;
+      const top = panel.getBoundingClientRect().top;
+      if (top < navH) scrollTo({ top: scrollY + top - navH - 8, behavior: reducedMotion ? "auto" : "smooth" });
+    }
+  };
+
+  const goTab = (name) => { showTab(name, { scroll: true }); history.replaceState(null, "", "#" + name); };
+
+  tabs.forEach(tab => tab.addEventListener("click", (e) => {
+    e.preventDefault();
+    goTab(tab.hash.slice(1));
+  }));
+
+  $("#navLinks").addEventListener("keydown", (e) => {
+    const i = tabs.indexOf(document.activeElement);
+    if (i < 0) return;
+    const step = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
+    let j = null;
+    if (step) j = (i + step + tabs.length) % tabs.length;
+    else if (e.key === "Home") j = 0;
+    else if (e.key === "End") j = tabs.length - 1;
+    if (j === null) return;
+    e.preventDefault();
+    tabs[j].focus();
+    goTab(tabs[j].hash.slice(1));
+  });
+
+  // links elsewhere on the page (hero CTA) should open the right tab
+  $$('a[href^="#"]').forEach(a => {
+    if (a.getAttribute("role") === "tab") return;
+    a.addEventListener("click", (e) => {
+      const name = resolve(a.getAttribute("href"));
+      if (!name) return;
+      e.preventDefault();
+      goTab(name);
+    });
+  });
+
+  addEventListener("hashchange", () => {
+    const name = resolve(location.hash);
+    if (name) showTab(name, { scroll: true });
+  });
+
+  showTab(resolve(location.hash) || "experience");
 
   /* ---------- Reveal + stat counters ---------- */
   const countUp = (el) => {
@@ -829,13 +919,13 @@
   const input = $("#paletteInput");
   const list = $("#paletteList");
   const commands = [
-    { icon: "◈", label: "Go to Experience", hint: "section", run: () => location.hash = "#experience" },
-    { icon: "◈", label: "Go to Projects", hint: "section", run: () => location.hash = "#projects" },
-    { icon: "◈", label: "Go to Direction", hint: "section", run: () => location.hash = "#goals" },
-    { icon: "◈", label: "Go to Off the Clock", hint: "section", run: () => location.hash = "#personal" },
-    { icon: "◈", label: "Go to Awards", hint: "section", run: () => location.hash = "#awards" },
-    { icon: "◈", label: "Go to Education", hint: "section", run: () => location.hash = "#education" },
-    { icon: "◈", label: "Go to Contact", hint: "section", run: () => location.hash = "#contact" },
+    { icon: "◈", label: "Go to Experience", hint: "tab", run: () => goTab("experience") },
+    { icon: "◈", label: "Go to Projects", hint: "tab", run: () => goTab("projects") },
+    { icon: "◈", label: "Go to Direction", hint: "tab", run: () => goTab("direction") },
+    { icon: "◈", label: "Go to About Me", hint: "tab", run: () => goTab("about") },
+    { icon: "◈", label: "Go to Awards", hint: "tab", run: () => goTab("education") },
+    { icon: "◈", label: "Go to Education", hint: "tab", run: () => goTab("education") },
+    { icon: "◈", label: "Go to Contact", hint: "tab", run: () => goTab("contact") },
     { icon: "◐", label: "Toggle dark mode", hint: "T", run: toggleTheme },
     { icon: "✉", label: "Copy email address", hint: "action", run: copyEmail },
     { icon: "↗", label: "Open LinkedIn", hint: "external", run: () => open("https://linkedin.com/in/alec-womboldt-7bb6085b", "_blank", "noopener") },

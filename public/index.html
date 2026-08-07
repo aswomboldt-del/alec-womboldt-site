@@ -490,9 +490,9 @@
       <a href="#home" role="tab" id="tab-home" aria-controls="panel-home">Home</a>
       <a href="#experience" role="tab" id="tab-experience" aria-controls="panel-experience">Experience</a>
       <a href="#projects" role="tab" id="tab-projects" aria-controls="panel-projects">Projects</a>
+      <a href="#education" role="tab" id="tab-education" aria-controls="panel-education">Education</a>
       <a href="#direction" role="tab" id="tab-direction" aria-controls="panel-direction">Direction</a>
       <a href="#about" role="tab" id="tab-about" aria-controls="panel-about">About Me</a>
-      <a href="#education" role="tab" id="tab-education" aria-controls="panel-education">Education</a>
       <a href="#contact" role="tab" id="tab-contact" aria-controls="panel-contact">Contact</a>
     </div>
     <div class="nav-tools">
@@ -669,6 +669,40 @@
 </section>
 </div>
 
+<div class="tabpanel" id="panel-education" role="tabpanel" aria-labelledby="tab-education" tabindex="-1">
+<section id="awards" class="wrap reveal">
+  <h2>Awards &amp; Recognition</h2>
+  <p class="section-sub">Academic and professional distinctions.</p>
+  <div class="awards">
+    <div class="award"><div class="medal">🏆</div><div><b>Unit Nurse of the Year, K4 SICU</b><span>Voted by unit staff · Stanford Health Care, Nurses Week 2024</span></div></div>
+    <div class="award"><div class="medal">🎤</div><div><b>National Teaching Institute (NTI) Presenter</b><span>UNITTE interdisciplinary shadowing program accepted at national nursing conference</span></div></div>
+    <div class="award"><div class="medal">🎓</div><div><b>Summa Cum Laude, BSN</b><span>Eastern Michigan University, 2020</span></div></div>
+  </div>
+</section>
+
+<section id="education" class="wrap reveal">
+  <h2>Education &amp; Certifications</h2>
+  <p class="section-sub">Formal training behind the practice.</p>
+  <div class="edu-grid">
+    <div>
+      <div class="edu-item"><b>MS, Clinical Informatics Management</b><span class="school">Stanford University</span><span class="detail"> · June 2026</span></div>
+      <div class="edu-item"><b>BSN, Nursing Science</b><span class="school">Eastern Michigan University</span><span class="detail"> · May 2020 · Summa cum laude</span></div>
+      <div class="edu-item"><b>AS, Nursing Science</b><span class="school">Lansing Community College</span><span class="detail"> · Dec 2017</span></div>
+      <div class="edu-item"><b>BS, Biology &amp; Chemistry</b><span class="school">Manchester University</span><span class="detail"> · May 2012 · Minor in Sociology</span></div>
+    </div>
+    <div>
+      <ul class="cert-list">
+        <li>Registered Nurse (RN), California</li>
+        <li>Critical Care Registered Nurse (CCRN)</li>
+        <li>Trauma Certified Registered Nurse (TCRN)</li>
+        <li>Advanced Cardiac Life Support (ACLS)</li>
+        <li>Basic Life Support (BLS)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+</div>
+
 <div class="tabpanel" id="panel-direction" role="tabpanel" aria-labelledby="tab-direction" tabindex="-1">
 <section id="direction" class="wrap reveal">
   <h2>Where I'm Headed</h2>
@@ -716,39 +750,6 @@
 </section>
 </div>
 
-<div class="tabpanel" id="panel-education" role="tabpanel" aria-labelledby="tab-education" tabindex="-1">
-<section id="awards" class="wrap reveal">
-  <h2>Awards &amp; Recognition</h2>
-  <p class="section-sub">Academic and professional distinctions.</p>
-  <div class="awards">
-    <div class="award"><div class="medal">🏆</div><div><b>Unit Nurse of the Year, K4 SICU</b><span>Voted by unit staff · Stanford Health Care, Nurses Week 2024</span></div></div>
-    <div class="award"><div class="medal">🎤</div><div><b>National Teaching Institute (NTI) Presenter</b><span>UNITTE interdisciplinary shadowing program accepted at national nursing conference</span></div></div>
-    <div class="award"><div class="medal">🎓</div><div><b>Summa Cum Laude, BSN</b><span>Eastern Michigan University, 2020</span></div></div>
-  </div>
-</section>
-
-<section id="education" class="wrap reveal">
-  <h2>Education &amp; Certifications</h2>
-  <p class="section-sub">Formal training behind the practice.</p>
-  <div class="edu-grid">
-    <div>
-      <div class="edu-item"><b>MS, Clinical Informatics Management</b><span class="school">Stanford University</span><span class="detail"> · June 2026</span></div>
-      <div class="edu-item"><b>BSN, Nursing Science</b><span class="school">Eastern Michigan University</span><span class="detail"> · May 2020 · Summa cum laude</span></div>
-      <div class="edu-item"><b>AS, Nursing Science</b><span class="school">Lansing Community College</span><span class="detail"> · Dec 2017</span></div>
-      <div class="edu-item"><b>BS, Biology &amp; Chemistry</b><span class="school">Manchester University</span><span class="detail"> · May 2012 · Minor in Sociology</span></div>
-    </div>
-    <div>
-      <ul class="cert-list">
-        <li>Registered Nurse (RN), California</li>
-        <li>Critical Care Registered Nurse (CCRN)</li>
-        <li>Trauma Certified Registered Nurse (TCRN)</li>
-        <li>Advanced Cardiac Life Support (ACLS)</li>
-        <li>Basic Life Support (BLS)</li>
-      </ul>
-    </div>
-  </div>
-</section>
-</div>
 
 <div class="tabpanel" id="panel-contact" role="tabpanel" aria-labelledby="tab-contact" tabindex="-1">
 <section id="contact" class="contact wrap reveal">
@@ -973,10 +974,10 @@
     { icon: "◈", label: "Go to Home", hint: "tab", run: () => goTab("home") },
     { icon: "◈", label: "Go to Experience", hint: "tab", run: () => goTab("experience") },
     { icon: "◈", label: "Go to Projects", hint: "tab", run: () => goTab("projects") },
+    { icon: "◈", label: "Go to Education", hint: "tab", run: () => goTab("education") },
+    { icon: "◈", label: "Go to Awards", hint: "tab", run: () => goTab("education") },
     { icon: "◈", label: "Go to Direction", hint: "tab", run: () => goTab("direction") },
     { icon: "◈", label: "Go to About Me", hint: "tab", run: () => goTab("about") },
-    { icon: "◈", label: "Go to Awards", hint: "tab", run: () => goTab("education") },
-    { icon: "◈", label: "Go to Education", hint: "tab", run: () => goTab("education") },
     { icon: "◈", label: "Go to Contact", hint: "tab", run: () => goTab("contact") },
     { icon: "◐", label: "Toggle dark mode", hint: "T", run: toggleTheme },
     { icon: "✉", label: "Copy email address", hint: "action", run: copyEmail },

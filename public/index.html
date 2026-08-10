@@ -1102,7 +1102,7 @@
   bestEl.textContent = best;
 
   const GRAV = 0.58, JUMP = -9.4;
-  let state = "idle", raf = 0;
+  let state = "idle", raf = 0, last = 0;
   let runner, obstacles, speed, dist, spawnIn, stride, flash;
 
   const reset = () => {
@@ -1181,23 +1181,31 @@
   const milestones = [[400, "400 m, one lap"], [1609, "a mile"], [5000, "5K"], [10000, "10K"]];
   let hit = 0;
 
-  const step = () => {
+  const step = (now) => {
     // If the visitor switched tabs, stop burning frames.
     if (canvas.offsetParent === null) { state = "idle"; raf = 0; return; }
 
-    speed = Math.min(speed + 0.0018, 9.2);
-    dist += speed * 0.3;
-    stride += 0.28 + speed * 0.02;
+    // Scale physics by elapsed time, not frames: otherwise the game runs twice as
+    // fast on a 120Hz display as on a 60Hz one. Clamped so a stall can't teleport
+    // the runner through a hurdle.
+    if (!last) last = now;
+    const dt = Math.max(0.4, Math.min((now - last) / 16.6667, 3));
+    last = now;
 
-    runner.vy += GRAV;
-    runner.y = Math.max(0, runner.y - runner.vy);
+    speed = Math.min(speed + 0.0018 * dt, 9.2);
+    dist += speed * 0.3 * dt;
+    stride += (0.28 + speed * 0.02) * dt;
+
+    runner.vy += GRAV * dt;
+    runner.y = Math.max(0, runner.y - runner.vy * dt);
     if (runner.y === 0) runner.vy = 0;
 
-    if (--spawnIn <= 0) {
+    spawnIn -= dt;
+    if (spawnIn <= 0) {
       obstacles.push({ x: W + 20, w: 12, h: 17 + Math.random() * 10 });
-      spawnIn = Math.round(58 + Math.random() * 46 - speed * 2.4);
+      spawnIn = 58 + Math.random() * 46 - speed * 2.4;
     }
-    obstacles.forEach(o => { o.x -= speed; });
+    obstacles.forEach(o => { o.x -= speed * dt; });
     obstacles = obstacles.filter(o => o.x + o.w > -30);
 
     while (hit < milestones.length && dist >= milestones[hit][0]) {
@@ -1223,7 +1231,7 @@
 
   const jump = () => {
     if (state === "playing") { if (runner.y === 0) runner.vy = JUMP; return; }
-    reset(); hit = 0; state = "playing";
+    reset(); hit = 0; state = "playing"; last = 0;
     runner.vy = JUMP;
     if (!raf) raf = requestAnimationFrame(step);
   };

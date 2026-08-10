@@ -52,6 +52,10 @@
     --serif: "Newsreader", Georgia, serif;
     --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+    /* obstacle colours for the contact-page game, warm enough for the paper palette */
+    --g-cone: #b0742a;
+    --g-barrier: #3f3a34;
+    --g-water: #46697c;
   }
   [data-theme="dark"] {
     --ink: #ece7dc;
@@ -66,6 +70,9 @@
     --accent-glow: rgba(224,88,74,.12);
     --nav-bg: rgba(21,18,16,.9);
     --code-bg: #241f1a;
+    --g-cone: #d9a94a;
+    --g-barrier: #c9c0b2;
+    --g-water: #7fa8bd;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -809,7 +816,7 @@
 
   <div class="game-box">
     <div class="game-head">
-      <b>You made it to the end. Here's a hurdle or two.</b>
+      <b>Thank you for visiting. Here's a hurdle or two.</b>
       <span class="game-score" aria-live="polite"><span id="gameDist">0</span> m · best <span id="gameBest">0</span> m</span>
     </div>
     <canvas id="gameCanvas" tabindex="0" aria-label="Optional hurdles mini game. Click the track, or focus it and press space, to run and jump."></canvas>
@@ -1083,7 +1090,8 @@
     const v = (n, f) => (s.getPropertyValue(n).trim() || f);
     C = { ink: v("--ink", "#161412"), soft: v("--ink-soft", "#57514a"),
           faint: v("--ink-faint", "#8a8378"), accent: v("--accent", "#a3241c"),
-          line: v("--line", "#e5dfd2") };
+          line: v("--line", "#e5dfd2"), cone: v("--g-cone", "#b0742a"),
+          barrier: v("--g-barrier", "#3f3a34"), water: v("--g-water", "#46697c") };
   };
   readTheme();
   new MutationObserver(readTheme).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
@@ -1131,13 +1139,66 @@
     ctx.stroke();
   };
 
-  const drawHurdle = (o, gy) => {
-    ctx.strokeStyle = C.accent; ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(o.x, gy); ctx.lineTo(o.x, gy - o.h);
-    ctx.moveTo(o.x + o.w, gy); ctx.lineTo(o.x + o.w, gy - o.h);
-    ctx.moveTo(o.x - 2, gy - o.h); ctx.lineTo(o.x + o.w + 2, gy - o.h);
-    ctx.stroke();
+  const drawObstacle = (o, gy) => {
+    const { x, w, h } = o;
+    ctx.strokeStyle = o.color; ctx.lineWidth = 2; ctx.lineJoin = "round";
+    if (o.kind === "cone") {
+      ctx.beginPath();
+      ctx.moveTo(x, gy); ctx.lineTo(x + w / 2, gy - h); ctx.lineTo(x + w, gy); ctx.closePath();
+      ctx.stroke();
+      ctx.beginPath();                                   // reflective band
+      ctx.moveTo(x + w * .26, gy - h * .46); ctx.lineTo(x + w * .74, gy - h * .46);
+      ctx.stroke();
+    } else if (o.kind === "barrier") {
+      ctx.strokeRect(x, gy - h, w, h);                   // solid steeplechase barrier
+      ctx.beginPath();
+      ctx.moveTo(x, gy); ctx.lineTo(x + w, gy - h);      // diagonal brace
+      ctx.stroke();
+    } else if (o.kind === "water") {
+      ctx.beginPath();                                   // wide, shallow water jump
+      for (let i = 0, steps = 7; i <= steps; i++) {
+        const px = x + (w * i) / steps;
+        const py = gy - 3 + Math.sin(i * 1.4 + dist * .09) * 1.6;
+        i ? ctx.lineTo(px, py) : ctx.moveTo(px, py);
+      }
+      ctx.stroke();
+      ctx.globalAlpha = .5;
+      ctx.beginPath();
+      ctx.moveTo(x + 3, gy - h); ctx.lineTo(x + w - 3, gy - h);
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+    } else {
+      ctx.beginPath();                                   // classic hurdle
+      ctx.moveTo(x, gy); ctx.lineTo(x, gy - h);
+      ctx.moveTo(x + w, gy); ctx.lineTo(x + w, gy - h);
+      ctx.moveTo(x - 2, gy - h); ctx.lineTo(x + w + 2, gy - h);
+      ctx.stroke();
+    }
+  };
+
+  // Shapes unlock as the run goes on, and every obstacle grows a little taller.
+  const pickKind = () => {
+    const r = Math.random();
+    if (dist < 400) return "hurdle";
+    if (dist < 1609) return r < .75 ? "hurdle" : "cone";
+    if (dist < 4000) return r < .50 ? "hurdle" : r < .72 ? "cone" : "barrier";
+    return r < .40 ? "hurdle" : r < .58 ? "cone" : r < .78 ? "barrier" : "water";
+  };
+
+  const spawn = () => {
+    const f = Math.min(dist / 6000, 1);                  // difficulty ramp, 0 to 1
+    const kind = pickKind();
+    let w, h, color;
+    if (kind === "cone")         { w = 15;          h = 14 + f * 8  + Math.random() * 3; color = C.cone; }
+    else if (kind === "barrier") { w = 17;          h = 20 + f * 11 + Math.random() * 4; color = C.barrier; }
+    else if (kind === "water")   { w = 30 + f * 26; h = 9;                               color = C.water; }
+    else                         { w = 12;          h = 16 + f * 12 + Math.random() * 5; color = C.accent; }
+    obstacles.push({ x: W + 24, w, h, kind, color });
+    // once warmed up, sometimes a matching pair close enough to take in one jump
+    if (dist > 1200 && kind !== "water" && Math.random() < .18) {
+      obstacles.push({ x: W + 24 + w + 46, w, h: h * .9, kind, color });
+    }
+    spawnIn = 58 + Math.random() * 46 - speed * 2.4;
   };
 
   const centreText = (lines) => {
@@ -1164,7 +1225,7 @@
     ctx.beginPath(); ctx.moveTo(0, gy + 8.5); ctx.lineTo(W, gy + 8.5); ctx.stroke();
     ctx.setLineDash([]); ctx.globalAlpha = 1;
 
-    obstacles.forEach(o => drawHurdle(o, gy));
+    obstacles.forEach(o => drawObstacle(o, gy));
     drawRunner(gy);
 
     if (flash && flash.t > 0) {
@@ -1201,10 +1262,7 @@
     if (runner.y === 0) runner.vy = 0;
 
     spawnIn -= dt;
-    if (spawnIn <= 0) {
-      obstacles.push({ x: W + 20, w: 12, h: 17 + Math.random() * 10 });
-      spawnIn = 58 + Math.random() * 46 - speed * 2.4;
-    }
+    if (spawnIn <= 0) spawn();
     obstacles.forEach(o => { o.x -= speed * dt; });
     obstacles = obstacles.filter(o => o.x + o.w > -30);
 

@@ -402,6 +402,38 @@
     border: 1px solid var(--line); border-radius: 4px; padding: 1px 5px; color: var(--ink-soft);
   }
 
+  /* Contact easter egg: a small hurdles runner */
+  .game-box {
+    max-width: 700px; margin: 36px auto 0; text-align: left;
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 2px; padding: 18px 20px 14px;
+  }
+  .game-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 12px; margin-bottom: 10px;
+  }
+  .game-head b {
+    font-size: .76rem; font-weight: 600; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--ink-faint);
+  }
+  .game-score {
+    font-family: var(--mono); font-size: .74rem; color: var(--ink-soft);
+    font-variant-numeric: tabular-nums; white-space: nowrap;
+  }
+  #gameCanvas {
+    display: block; width: 100%; height: 158px; cursor: pointer;
+    background: var(--code-bg); border: 1px solid var(--line); border-radius: 2px;
+  }
+  #gameCanvas:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .game-hint {
+    font-size: .75rem; color: var(--ink-faint);
+    margin: 9px 0 0; max-width: none;
+  }
+  .game-hint kbd {
+    font-family: var(--mono); font-size: .7rem; background: var(--code-bg);
+    border: 1px solid var(--line); border-radius: 4px; padding: 1px 5px; color: var(--ink-soft);
+  }
+
   /* Command palette */
   .palette-overlay {
     position: fixed; inset: 0; background: rgba(10,16,15,.45); z-index: 90;
@@ -774,6 +806,15 @@
       </div>
     </div>
   </div>
+
+  <div class="game-box">
+    <div class="game-head">
+      <b>You made it to the end. Here's a hurdle or two.</b>
+      <span class="game-score" aria-live="polite"><span id="gameDist">0</span> m · best <span id="gameBest">0</span> m</span>
+    </div>
+    <canvas id="gameCanvas" tabindex="0" aria-label="Optional hurdles mini game. Click the track, or focus it and press space, to run and jump."></canvas>
+    <p class="game-hint">Click the track or press <kbd>space</kbd> to run. Jump the hurdles.</p>
+  </div>
 </section>
 </div>
 </main>
@@ -1021,6 +1062,188 @@
     const typing = /^(input|textarea|select)$/i.test(document.activeElement.tagName);
     if (!typing && !e.metaKey && !e.ctrlKey && !e.altKey && e.key.toLowerCase() === "t") toggleTheme();
   });
+})();
+</script>
+
+<script>
+/* Hurdles: a small reward for reaching the contact page.
+   Self-contained, no libraries. Motion only ever starts from a user action. */
+(() => {
+  "use strict";
+  const canvas = document.getElementById("gameCanvas");
+  if (!canvas || !canvas.getContext) return;
+  const ctx = canvas.getContext("2d");
+  const distEl = document.getElementById("gameDist");
+  const bestEl = document.getElementById("gameBest");
+
+  // Colours come from the theme so the game follows light/dark automatically.
+  let C = {};
+  const readTheme = () => {
+    const s = getComputedStyle(document.documentElement);
+    const v = (n, f) => (s.getPropertyValue(n).trim() || f);
+    C = { ink: v("--ink", "#161412"), soft: v("--ink-soft", "#57514a"),
+          faint: v("--ink-faint", "#8a8378"), accent: v("--accent", "#a3241c"),
+          line: v("--line", "#e5dfd2") };
+  };
+  readTheme();
+  new MutationObserver(readTheme).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
+  let W = 0, H = 0;
+  const resize = () => {
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    W = canvas.clientWidth; H = canvas.clientHeight;
+    canvas.width = Math.round(W * dpr);
+    canvas.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  };
+
+  const BEST_KEY = "hurdlesBest";
+  let best = +(localStorage.getItem(BEST_KEY) || 0);
+  bestEl.textContent = best;
+
+  const GRAV = 0.58, JUMP = -9.4;
+  let state = "idle", raf = 0;
+  let runner, obstacles, speed, dist, spawnIn, stride, flash;
+
+  const reset = () => {
+    runner = { y: 0, vy: 0 };      // y is height above the ground line
+    obstacles = []; speed = 4.2; dist = 0; spawnIn = 70; stride = 0; flash = null;
+  };
+  reset();
+
+  const groundY = () => H - 30;
+
+  const drawRunner = (gy) => {
+    const x = 52, y = gy - runner.y, t = stride;
+    ctx.strokeStyle = C.ink; ctx.lineWidth = 2; ctx.lineCap = "round";
+    ctx.beginPath(); ctx.arc(x, y - 25, 4, 0, Math.PI * 2); ctx.stroke();   // head
+    ctx.beginPath(); ctx.moveTo(x, y - 21); ctx.lineTo(x, y - 10); ctx.stroke(); // torso
+    const air = runner.y > 0.5;
+    const sw = air ? 0.9 : Math.sin(t) * 1.1;          // legs
+    ctx.beginPath();
+    ctx.moveTo(x, y - 10); ctx.lineTo(x + 7 * sw, y);
+    ctx.moveTo(x, y - 10); ctx.lineTo(x - 7 * sw, y - (air ? 4 : 0));
+    ctx.stroke();
+    const aw = air ? -0.8 : Math.cos(t) * 1.0;          // arms
+    ctx.beginPath();
+    ctx.moveTo(x, y - 19); ctx.lineTo(x + 7 * aw, y - 13);
+    ctx.moveTo(x, y - 19); ctx.lineTo(x - 7 * aw, y - 13);
+    ctx.stroke();
+  };
+
+  const drawHurdle = (o, gy) => {
+    ctx.strokeStyle = C.accent; ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(o.x, gy); ctx.lineTo(o.x, gy - o.h);
+    ctx.moveTo(o.x + o.w, gy); ctx.lineTo(o.x + o.w, gy - o.h);
+    ctx.moveTo(o.x - 2, gy - o.h); ctx.lineTo(o.x + o.w + 2, gy - o.h);
+    ctx.stroke();
+  };
+
+  const centreText = (lines) => {
+    ctx.textAlign = "center";
+    ctx.fillStyle = C.soft;
+    ctx.font = "600 13px Inter, system-ui, sans-serif";
+    ctx.fillText(lines[0], W / 2, H / 2 - 4);
+    if (lines[1]) {
+      ctx.fillStyle = C.faint;
+      ctx.font = "11px Inter, system-ui, sans-serif";
+      ctx.fillText(lines[1], W / 2, H / 2 + 14);
+    }
+    ctx.textAlign = "left";
+  };
+
+  const draw = () => {
+    const gy = groundY();
+    ctx.clearRect(0, 0, W, H);
+
+    ctx.strokeStyle = C.line; ctx.lineWidth = 1;                 // track
+    ctx.beginPath(); ctx.moveTo(0, gy + 0.5); ctx.lineTo(W, gy + 0.5); ctx.stroke();
+    ctx.strokeStyle = C.faint; ctx.globalAlpha = .35;             // lane dashes
+    ctx.setLineDash([6, 14]); ctx.lineDashOffset = -dist * 2;
+    ctx.beginPath(); ctx.moveTo(0, gy + 8.5); ctx.lineTo(W, gy + 8.5); ctx.stroke();
+    ctx.setLineDash([]); ctx.globalAlpha = 1;
+
+    obstacles.forEach(o => drawHurdle(o, gy));
+    drawRunner(gy);
+
+    if (flash && flash.t > 0) {
+      ctx.fillStyle = C.accent;
+      ctx.font = "600 12px Inter, system-ui, sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText(flash.msg, W / 2, 26);
+      ctx.textAlign = "left";
+    }
+    if (state === "idle") centreText(["Click or press space to run", "jump the hurdles"]);
+    if (state === "over") centreText([`${Math.floor(dist)} m`, "click or press space to run again"]);
+  };
+
+  const milestones = [[400, "400 m, one lap"], [1609, "a mile"], [5000, "5K"], [10000, "10K"]];
+  let hit = 0;
+
+  const step = () => {
+    // If the visitor switched tabs, stop burning frames.
+    if (canvas.offsetParent === null) { state = "idle"; raf = 0; return; }
+
+    speed = Math.min(speed + 0.0018, 9.2);
+    dist += speed * 0.3;
+    stride += 0.28 + speed * 0.02;
+
+    runner.vy += GRAV;
+    runner.y = Math.max(0, runner.y - runner.vy);
+    if (runner.y === 0) runner.vy = 0;
+
+    if (--spawnIn <= 0) {
+      obstacles.push({ x: W + 20, w: 12, h: 17 + Math.random() * 10 });
+      spawnIn = Math.round(58 + Math.random() * 46 - speed * 2.4);
+    }
+    obstacles.forEach(o => { o.x -= speed; });
+    obstacles = obstacles.filter(o => o.x + o.w > -30);
+
+    while (hit < milestones.length && dist >= milestones[hit][0]) {
+      flash = { msg: milestones[hit][1], t: 100 }; hit++;
+    }
+    if (flash) flash.t--;
+
+    // collision: runner occupies x 46..58, its feet at height runner.y
+    for (const o of obstacles) {
+      if (o.x < 59 && o.x + o.w > 45 && runner.y < o.h) {
+        state = "over";
+        const d = Math.floor(dist);
+        if (d > best) { best = d; localStorage.setItem(BEST_KEY, best); bestEl.textContent = best; }
+        draw(); distEl.textContent = d; raf = 0;
+        return;
+      }
+    }
+
+    distEl.textContent = Math.floor(dist);
+    draw();
+    raf = requestAnimationFrame(step);
+  };
+
+  const jump = () => {
+    if (state === "playing") { if (runner.y === 0) runner.vy = JUMP; return; }
+    reset(); hit = 0; state = "playing";
+    runner.vy = JUMP;
+    if (!raf) raf = requestAnimationFrame(step);
+  };
+
+  canvas.addEventListener("click", () => { canvas.focus(); jump(); });
+  canvas.addEventListener("touchstart", (e) => { e.preventDefault(); jump(); }, { passive: false });
+  canvas.addEventListener("keydown", (e) => {
+    if (e.key === " " || e.key === "Spacebar" || e.key === "ArrowUp") { e.preventDefault(); jump(); }
+  });
+  canvas.addEventListener("blur", () => { if (state === "playing") { state = "idle"; cancelAnimationFrame(raf); raf = 0; draw(); } });
+
+  addEventListener("resize", () => { resize(); draw(); });
+  // The panel starts hidden, so the canvas has no width until Contact is opened.
+  // ResizeObserver fires on that transition and gives us real dimensions to draw into.
+  if (window.ResizeObserver) {
+    new ResizeObserver(() => {
+      if (canvas.clientWidth && canvas.clientWidth !== W) { resize(); if (state !== "playing") draw(); }
+    }).observe(canvas);
+  }
+  resize(); draw();
 })();
 </script>
 

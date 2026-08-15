@@ -407,6 +407,13 @@
     font-size: .82rem; color: var(--ink-faint);
   }
   footer a { color: var(--ink-faint); }
+  .foot-cta { margin-bottom: 10px; }
+  .foot-cta a {
+    font-family: var(--serif); font-size: 1.08rem; color: var(--ink);
+    text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 2px;
+    transition: color .15s ease, border-color .15s ease;
+  }
+  .foot-cta a:hover { color: var(--accent); border-bottom-color: var(--accent); }
   .foot-kbd { margin-top: 8px; font-size: .74rem; }
   .foot-kbd kbd {
     font-family: var(--mono); font-size: .7rem; background: var(--code-bg);
@@ -846,7 +853,8 @@
 
 <footer>
   <div class="wrap">
-    <p>© 2026 Alec Womboldt · Palo Alto, CA · I built this site myself with Claude as a pair programmer, the same way I built FullCircle.</p>
+    <p class="foot-cta"><a href="#contact">Let's have a conversation about making health care better.</a></p>
+    <p>© 2026 Alec Womboldt · Palo Alto, CA · I built this site myself with Claude as a pair programmer.</p>
     <p class="foot-kbd"><kbd>⌘K</kbd> command palette · <kbd>T</kbd> toggle theme</p>
   </div>
 </footer>

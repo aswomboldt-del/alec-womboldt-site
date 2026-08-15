@@ -650,7 +650,7 @@
     <div class="card card-wide">
       <span class="tag">Co-Builder · 2025–2026</span>
       <h3>FullCircle</h3>
-      <div class="role">Nurse Scheduling Platform with a Contract and Policy Assistant</div>
+      <div class="role">Nurse Scheduling Platform with StaffQuery, a Contract and Policy Assistant</div>
       <p class="thesis">Fair to nurses, defensible for managers, citation backed for both.</p>
       <p>FullCircle is one product with two surfaces: a scheduling platform and a contract and policy assistant, both grounded in the same corpus of union contract and staffing policy documents. The schedule and the answers agree with each other because they read from the same source.</p>
       <div class="surfaces">
@@ -660,13 +660,13 @@
         </div>
         <div class="surface">
           <b>Nurse surface</b>
-          <p>Sign in to view your schedule, submit availability, and request time off or swaps. A mobile first assistant answers contract and policy questions in plain language, with citations to document and page.</p>
+          <p>Sign in to view your schedule, submit availability, and request time off or swaps. StaffQuery, a mobile first assistant, answers contract and policy questions in plain language, with citations to document and page.</p>
         </div>
       </div>
       <p><strong>The hard technical problem:</strong> where a hospital policy conflicts with the union contract, the contract takes precedence. That precedence rule has to be encoded in how the system retrieves and answers, not left for the model to guess.</p>
-      <p><strong>What the pilot actually was:</strong> the assistant is the surface that has been in front of nurses, not the scheduling platform. I put a working prototype in front of frontline nurses on my unit and watched what they asked it. The suggested questions in the product came straight from those sessions: overtime rules, how much notice a schedule change requires, call back pay, and what counts as hours worked. That is the point of the pilot. It was clinician user research, not an adoption number.</p>
+      <p><strong>What the pilot actually was:</strong> StaffQuery is the surface that has been in front of nurses, not the scheduling platform. I put a working prototype in front of frontline nurses on my unit and watched what they asked it. The suggested questions in the product came straight from those sessions: overtime rules, how much notice a schedule change requires, call back pay, and what counts as hours worked. That is the point of the pilot. It was clinician user research, not an adoption number.</p>
       <p>Putting it in front of real nurses is also what showed me the distance to production: a security review, clear PHI boundaries, a governed source of truth for policy documents, versioning for contracts that get renegotiated, hardened authentication, and a real evaluation method for whether an answer is correct.</p>
-      <p>I built the assistant end to end while teaching myself to code. FullCircle itself is a team effort, and the scheduling platform has not been piloted yet. We are looking for a first site. Alongside the build we developed the go-to-market strategy, mapped California regulatory exposure under AB 394 and SB 596, and presented to Stanford faculty, clinical partners, and nursing leadership.</p>
+      <p>I built <strong>StaffQuery</strong> end to end myself, a working RAG prototype made while teaching myself to code. The staffing solver and the rest of FullCircle were co-built with my team. The scheduling platform has not been piloted yet and we are looking for a first site. Alongside the build we developed the go-to-market strategy, mapped California regulatory exposure under AB 394 and SB 596, and presented to Stanford faculty, clinical partners, and nursing leadership.</p>
       <details class="diagram">
         <summary>How it works under the hood</summary>
         <div class="diagram-box">

@@ -548,7 +548,7 @@
     <div class="hero-text">
       <span class="kicker">Clinical Informatics · Healthcare AI</span>
       <h1>I build <em>AI tools for <span id="typeword">clinicians</span><span class="type-cursor" aria-hidden="true"></span></em>, grounded in eight years at the bedside.</h1>
-      <p class="lede">I'm a critical care nurse and a Stanford-trained clinical informaticist. I spent eight years learning where hospital technology helps and where it gets in the way. Now I build the tools I wished I had at the bedside: redesigned Epic workflows, an AI policy agent nurses use mid-shift, and a scheduling platform I co-built.</p>
+      <p class="lede">I'm a critical care nurse and a Stanford-trained clinical informaticist. I spent eight years learning where hospital technology helps and where it gets in the way. Now I build the tools I wished I had at the bedside: redesigned Epic workflows, an AI policy agent I piloted with nurses on my own unit, and a scheduling platform I co-built.</p>
       <p class="creds"><strong>Alec Womboldt, MS, RN, CCRN, TCRN</strong></p>
       <div class="cta-row">
         <a class="btn btn-primary" href="#projects">See what I've built</a>
@@ -603,7 +603,7 @@
     <li class="tl-item">
       <span class="tl-year">2026</span> <span class="tl-org">Stanford University</span>
       <b>MS, Clinical Informatics Management + StaffQuery</b>
-      <p>Graduated from Stanford's CIM program and shipped StaffQuery, an LLM policy agent used by frontline nurses.</p>
+      <p>Graduated from Stanford's CIM program and built StaffQuery, an LLM policy agent piloted with frontline nurses.</p>
     </li>
   </ol>
 </section>
@@ -618,9 +618,11 @@
       <h3>Registered Nurse · Surgical ICU · Nursing Informatics</h3>
       <div class="org">Stanford Health Care · Stanford, CA</div>
       <ul>
-        <li>Helped lead nurse charting redesign as an <strong>Epic Optimization Champion</strong> during a six-month nursing informatics internship, rebuilding inpatient documentation workflows so nurses spend less time clicking and more time with patients.</li>
+        <li>Trained and onboarded <strong>over 40 staff nurses</strong> on Epic Rover and <strong>DAX ambient AI documentation</strong> during a six-month nursing informatics internship under the Chief Nurse Informatics Officer. I used the tools on shift myself and fed what I heard from the floor back into the team's evaluation.</li>
+        <li>Helped build and deliver a peer training video teaching Epic Rover mobile point-of-care documentation workflows to nurses enterprise wide.</li>
+        <li>Helped lead nurse charting redesign as an <strong>Epic Optimization Champion</strong>, rebuilding inpatient documentation workflows so nurses spend less time clicking and more time with patients.</li>
         <li>Built and deployed <strong>StaffQuery</strong>, a generative AI policy agent that answers contract and policy questions in seconds. I shipped it myself on Vercel, with Claude and Gemini under the hood, before I had ever written production software.</li>
-        <li>Chaired a unit improvement committee from idea through implementation, precepted new nurses, and floated across high acuity critical care units.</li>
+        <li>Chaired a unit improvement committee from idea through implementation, precepted <strong>over 20</strong> incoming nurses and new graduates, and floated across high acuity critical care units.</li>
         <li>Co-developed <strong>UNITTE</strong>, an interdisciplinary shadowing program we presented at the National Teaching Institute, a national nursing conference.</li>
       </ul>
     </div>
@@ -662,7 +664,8 @@
         </div>
       </div>
       <p><strong>The hard technical problem:</strong> where a hospital policy conflicts with the union contract, the contract takes precedence. That precedence rule has to be encoded in how the system retrieves and answers, not left for the model to guess.</p>
-      <p>The assistant is deployed and in use at the point of care. I built the platform end to end while teaching myself to code, and paired it with a go-to-market strategy, California regulatory mapping under AB 394 and SB 596, and presentations to Stanford faculty, clinical partners, and nursing leadership.</p>
+      <p><strong>What the pilot actually was:</strong> I put a working prototype in front of frontline nurses on my unit and watched what they asked it. The suggested questions in the product came straight from those sessions: overtime rules, how much notice a schedule change requires, call back pay, and what counts as hours worked. That is the point of the pilot. It was clinician user research, not an adoption number.</p>
+      <p>Putting it in front of real nurses is also what showed me the distance to production: a security review, clear PHI boundaries, a governed source of truth for policy documents, versioning for contracts that get renegotiated, hardened authentication, and a real evaluation method for whether an answer is correct. I built the platform end to end while teaching myself to code, and paired it with a go-to-market strategy, California regulatory mapping under AB 394 and SB 596, and presentations to Stanford faculty, clinical partners, and nursing leadership.</p>
       <details class="diagram">
         <summary>How it works under the hood</summary>
         <div class="diagram-box">

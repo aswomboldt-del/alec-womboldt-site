@@ -654,10 +654,10 @@
   <div class="cards">
     <div class="card card-wide">
       <span class="tag">Co-Builder · 2025–2026</span>
-      <h3>FullCircle</h3>
-      <div class="role">Nurse Scheduling Platform with StaffQuery, a Contract and Policy Assistant</div>
+      <h3>FullCircle Staffing</h3>
+      <div class="role">AI Nurse Scheduling Platform</div>
       <p class="thesis">Fair to nurses, defensible for managers, citation backed for both.</p>
-      <p>FullCircle is one product with two surfaces: a scheduling platform and a contract and policy assistant, both grounded in the same corpus of union contract and staffing policy documents. The schedule and the answers agree with each other because they read from the same source.</p>
+      <p>Building a monthly schedule eats manager time, and nurses get almost no say in when they work. FullCircle goes at both ends of that problem: take the manual labor out of scheduling, and give nurses real autonomy over their own shifts. More access and more control for the people working the floor, aimed squarely at the burnout that comes from having none.</p>
       <div class="surfaces">
         <div class="surface">
           <b>Manager surface</b>
@@ -665,13 +665,22 @@
         </div>
         <div class="surface">
           <b>Nurse surface</b>
-          <p>Sign in to view your schedule, submit availability, and request time off or swaps. StaffQuery, a mobile first assistant, answers contract and policy questions in plain language, with citations to document and page.</p>
+          <p>Sign in to view your schedule, submit availability, and request time off or swaps, so scheduling is something you take part in rather than something handed to you.</p>
         </div>
       </div>
-      <p><strong>The hard technical problem:</strong> where a hospital policy conflicts with the union contract, the contract takes precedence. That precedence rule has to be encoded in how the system retrieves and answers, not left for the model to guess.</p>
-      <p><strong>What the pilot actually was:</strong> StaffQuery is the surface that has been in front of nurses, not the scheduling platform. I put a working prototype in front of frontline nurses on my unit and watched what they asked it. The suggested questions in the product came straight from those sessions: overtime rules, how much notice a schedule change requires, call back pay, and what counts as hours worked. That is the point of the pilot. It was clinician user research, not an adoption number.</p>
+      <p>FullCircle is a team project. The staffing solver and the platform itself are shared work, co-built with my team. Alongside the build we developed the go-to-market strategy, mapped California regulatory exposure under AB 394 and SB 596, and presented to Stanford faculty, clinical partners, and nursing leadership. The platform has not been piloted yet and we are looking for a first site.</p>
+      <div class="stack"><span>Product Strategy</span><span>Constraint Scheduling</span><span>Regulatory Mapping</span><span>Go-to-Market</span></div>
+    </div>
+
+    <div class="card card-wide">
+      <span class="tag">Built solo · Part of FullCircle</span>
+      <h3>StaffQuery</h3>
+      <div class="role">Retrieval Augmented Contract Assistant</div>
+      <p>A nurses' union contract governs overtime, time off, floating, and pay, and almost nobody reads it end to end. StaffQuery makes it answerable. Ask in plain language, get an answer back with a citation to the source, in seconds rather than after digging through a PDF mid-shift.</p>
+      <p><strong>How it works:</strong> take the union contract, chunk it, and embed the chunks. A question retrieves the passages that match it, and those passages go to Gemini Flash 2.5 along with the question, which answers in plain language and cites document and page. Deployed on Vercel. I built this one end to end myself as part of the FullCircle project, before I had ever written production software.</p>
+      <p><strong>The hard part:</strong> where a hospital policy conflicts with the union contract, the contract takes precedence. That rule has to be encoded in how the system retrieves and answers, not left for the model to guess.</p>
+      <p><strong>What the pilot actually was:</strong> StaffQuery is the piece that has been in front of nurses. I put a working prototype in front of frontline nurses on my unit and watched what they asked it. The suggested questions in the product came straight from those sessions: overtime rules, how much notice a schedule change requires, call back pay, and what counts as hours worked. That is the point of the pilot. It was clinician user research, not an adoption number.</p>
       <p>Putting it in front of real nurses is also what showed me the distance to production: a security review, clear PHI boundaries, a governed source of truth for policy documents, versioning for contracts that get renegotiated, hardened authentication, and a real evaluation method for whether an answer is correct.</p>
-      <p>I built <strong>StaffQuery</strong> end to end myself, a working RAG prototype made while teaching myself to code. The staffing solver and the rest of FullCircle were co-built with my team. The scheduling platform has not been piloted yet and we are looking for a first site. Alongside the build we developed the go-to-market strategy, mapped California regulatory exposure under AB 394 and SB 596, and presented to Stanford faculty, clinical partners, and nursing leadership.</p>
       <details class="diagram">
         <summary>How it works under the hood</summary>
         <div class="diagram-box">
@@ -703,9 +712,9 @@
           </svg>
         </div>
       </details>
-      <div class="stack"><span>Product Strategy</span><span>Constraint Scheduling</span><span>RAG / LLM</span><span>Claude API</span><span>Gemini Flash 2.5</span><span>Vercel</span><span>Regulatory Mapping</span></div>
+      <div class="stack"><span>RAG</span><span>Gemini Flash 2.5</span><span>Chunking &amp; Retrieval</span><span>Citations</span><span>Vercel</span></div>
     </div>
-    <div class="card">
+    <div class="card card-wide">
       <span class="tag">Co-Creator · Stanford Health Care</span>
       <h3>UNITTE</h3>
       <div class="role">Interdisciplinary Shadowing Program</div>

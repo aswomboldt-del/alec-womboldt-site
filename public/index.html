@@ -126,6 +126,10 @@
   .nav-links a[aria-selected="true"]::after { width: 100%; }
   .tabpanel[hidden] { display: none; }
   .tabpanel:focus { outline: none; }
+  /* Sections carry no vertical padding of their own: `.wrap` is a class, so its
+     `padding: 0 24px` outranks the element-level `section { padding: 64px 0 }`.
+     Give every panel its own breathing room instead of restructuring that. */
+  .tabpanel { padding-top: 26px; padding-bottom: 84px; }
   .nav-tools { display: flex; gap: 10px; align-items: center; }
   .icon-btn {
     background: var(--surface); border: 1px solid var(--line); color: var(--ink-soft);
@@ -502,6 +506,7 @@
     .nav-links::-webkit-scrollbar { display: none; }
     .nav-links a { white-space: nowrap; font-size: .88rem; }
     header { padding: 56px 0 48px; }
+    .tabpanel { padding-top: 18px; padding-bottom: 60px; }
     .hero-grid { grid-template-columns: 1fr; gap: 40px; }
     .portrait { max-width: 300px; }
     .stats { grid-template-columns: 1fr; }
